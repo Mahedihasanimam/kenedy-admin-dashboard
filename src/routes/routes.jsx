@@ -3,13 +3,13 @@ import Main from '../layouts/Main';
 
 import Dashboardmain from './../pages/Dashboardmain';
 import Notification from './../components/Notification';
-import PropertyListings from '../components/PropertyListings';
-import CategoryManagement from '../components/CategoryManagement';
-import ManageUsers from '../components/ManageUsers';
-import UserProfile from '../components/UserProfile';
-import Transactions from '../components/Transactions';
 
-import ManageBooking from '../components/ManageBooking';
+
+import ManageUsers from '../components/ManageUsers';
+
+
+
+
 import Login from '../components/LayoutsComponents/Login';
 import Forgetpasswrod from '../components/Forgetpasswrod';
 import OTPverification from '../components/OTPverification';
@@ -18,6 +18,10 @@ import Personalinfo from '../components/personalinfo';
 import Security from '../components/Security';
 import MakeAdmin from '../components/LayoutsComponents/MakeAdmin';
 import AddBooks from '../components/LayoutsComponents/AddBooks';
+import AddPodcast from '../components/LayoutsComponents/AddPodcast';
+import FAQpage from '../components/LayoutsComponents/FAQpage';
+import TermsAndConDitions from '../components/LayoutsComponents/TermsAndConDitions';
+import AboutUs from '../components/LayoutsComponents/AboutUs';
 
 
 
@@ -43,21 +47,22 @@ const router = createBrowserRouter([
         element: <AddBooks/>,
       },
       {
-        path: "/CategoryManagement",
-        element: <CategoryManagement></CategoryManagement>,
+        path: "/addpodcast",
+        element: <AddPodcast/>,
       },
       {
-        path: "/manageusers",
-        element: <ManageUsers></ManageUsers>,
+        path: "/FAQ",
+        element: <FAQpage/>,
       },
       {
-        path: "/transactions",
-        element: <Transactions/>
+        path: "/termsandconditions",
+        element: <TermsAndConDitions/>,
       },
       {
-        path: "/user/:userId",
-        element:<UserProfile/>
+        path: "/aboutus",
+        element: <AboutUs/>
       },
+    
       {
         path: "/editcontent",
         element:<EditContent/>
@@ -70,10 +75,7 @@ const router = createBrowserRouter([
         path: "/personalinfo",
         element:<Personalinfo/>
       },
-      {
-        path: "/bookingmanagement",
-        element:<ManageBooking/>
-      },
+     
       {
         path: "/security",
         element:<Security/>

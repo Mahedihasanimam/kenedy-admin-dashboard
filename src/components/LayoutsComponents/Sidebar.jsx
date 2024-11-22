@@ -6,7 +6,7 @@ import avater from "/public/avater.png";
 import Swal from "sweetalert2";
 import { EditOutlined, SecurityScanOutlined, UserOutlined } from '@ant-design/icons';
 import { MdOutlinePersonalInjury } from "react-icons/md";
-import { BiUserPlus } from "react-icons/bi";
+import { BiPodcast, BiUserPlus } from "react-icons/bi";
 import { IoAddOutline } from "react-icons/io5";
 
 // eslint-disable-next-line react/prop-types
@@ -33,6 +33,15 @@ const Sidebar = ({ collapsed }) => {
     <Menu>
       <Menu.Item key="0"> <Link to={"/personalinfo"}><UserOutlined className="pr-2" />Personal information</Link> </Menu.Item>
       <Menu.Item key="1"> <Link to={"/security"}	> <SecurityScanOutlined className="pr-2" /> Security </Link> </Menu.Item>
+
+    </Menu>
+
+  );
+  const seetingsmenu = (
+    <Menu>
+      <Menu.Item key="0"> <Link to={"/aboutus"}>About Us</Link> </Menu.Item>
+      <Menu.Item key="1"> <Link to={"/FAQ"}	>  FAQ </Link> </Menu.Item>
+      <Menu.Item key="1"> <Link to={"/termsandconditions"}	>  Terms&Conditions </Link> </Menu.Item>
 
     </Menu>
 
@@ -98,7 +107,7 @@ const Sidebar = ({ collapsed }) => {
                 },
 
                 {
-                  key: "7",
+                  key: "2",
                   icon: (
                     <UserOutlined style={{fontSize: '20px'}}/>
                   ),
@@ -107,16 +116,16 @@ const Sidebar = ({ collapsed }) => {
                   </Dropdown>,
                 },
                 {
-                  key: "8",
+                  key: "3",
                   icon: (
                     <EditOutlined style={{ color: '#262626' ,fontSize: '20px'}} className="text-[#FF0048]" />
                   ),
                   label: <NavLink className={({ isActive }) => isActive ? "text-[#FF0048] opacity-70" : " text-secondary opacity-70"} to={`/editcontent`}>Banner Update</NavLink>,
                 },
                 {
-                  key: "1",
+                  key: "4",
                   icon: (
-                    <BiUserPlus size={30}/>
+                    <BiUserPlus size={25}/>
                   ),
                   label: (
                     <NavLink className={({ isActive }) => isActive ? "text-[#FF0048] opacity-70" : " text-secondary opacity-70"
@@ -129,7 +138,7 @@ const Sidebar = ({ collapsed }) => {
                 {
                   key: "5",
                   icon: (
-                    <IoAddOutline size={30}/>
+                    <IoAddOutline size={25}/>
                   ),
                   label: (
                     <NavLink className={({ isActive }) => isActive ? "text-[#FF0048] opacity-70" : " text-secondary opacity-70"
@@ -138,6 +147,32 @@ const Sidebar = ({ collapsed }) => {
                       AddBooks
                     </NavLink>
                   ),
+                },
+                {
+                  key: "6",
+                  icon: (
+                    <BiPodcast size={20}/>
+                  ),
+                  label: (
+                    <NavLink className={({ isActive }) => isActive ? "text-[#FF0048] opacity-70" : " text-secondary opacity-70"
+                    } to={`/addpodcast`}>
+                      {" "}
+                      Add Podcast
+                    </NavLink>
+                  ),
+                },
+                {
+                  key: "7",
+                  icon: (
+                    <svg width="13" height="16" viewBox="0 0 13 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2 0.572266L2 8.62227C0.85888 8.85391 0 9.86279 0 11.0723C0 12.2817 0.85888 13.2906 2 13.5223V15.5723H3V13.5223C4.14112 13.2906 5 12.2817 5 11.0723C5 9.86279 4.14112 8.85391 3 8.62227L3 0.572266H2Z" fill="black" fill-opacity="0.8"/>
+                    <path d="M10 0.572266L10 2.62227C8.85888 2.85391 8 3.86279 8 5.07227C8 6.28174 8.85888 7.29062 10 7.52226V15.5723H11V7.52226C12.1411 7.29062 13 6.28174 13 5.07227C13 3.86279 12.1411 2.85391 11 2.62227L11 0.572266H10Z" fill="black" fill-opacity="0.8"/>
+                    </svg>
+                    
+                  ),
+                  label: <Dropdown overlayStyle={{ width: 'fit-content', backgroundColor: '#2B2B2B', borderRadius: '10px' }} overlay={seetingsmenu} trigger={['click']}>
+                    <p>Seetings</p>
+                  </Dropdown>,
                 },
               ]}
             />
