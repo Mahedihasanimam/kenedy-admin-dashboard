@@ -1,0 +1,231 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* sider  */
+.ant-layout-sider {
+  background: #ffffff !important;
+}
+
+.ant-menu-dark,
+.ant-menu-dark .ant-menu {
+  background: #ffffff !important;
+  color:#000000;
+}
+
+.ant-menu-dark .ant-menu-item-selected {
+  background-color: #ffffff !important;
+}
+
+.ant-menu-dark .ant-menu-item,
+.ant-menu-dark .ant-menu-submenu-title {
+  margin-bottom: 20px !important;
+}
+
+.ant-layout-sider-collapsed svg.w-5.h-5.ant-menu-item-icon {
+  margin-left: -2px;
+  margin-bottom: -4px;
+}
+
+.ant-menu-dark.ant-menu-inline .ant-menu-sub.ant-menu-inline {
+  background: black !important;
+}
+
+/* customSelect.css */
+.custom-select {
+  background-color: transparent !important; /* Remove background color */
+  border: none !important; /* Remove border */
+  box-shadow: none !important; /* Remove box shadow */
+  color: white !important; /* Set text color to white */
+}
+
+.custom-select .ant-select-arrow {
+  color: white !important; /* Set icon color to white */
+}
+
+/* This targets the dropdown */
+.custom-select .ant-select-selector {
+  background-color: transparent !important; /* Remove background color for the selector */
+  border: none !important; /* Remove border for the selector */
+  box-shadow: none !important; /* Remove box shadow for the selector */
+  color: white !important; /* Set text color to white */
+}
+
+/* Optionally, if you want to customize the dropdown items */
+.custom-select .ant-select-item {
+  background-color: #f5f5f5; /* Customize dropdown item background */
+  color: white !important; /* Set text color to white */
+}
+
+.custom-select .ant-select-item:hover {
+  background-color: #e6f7ff; /* Hover effect */
+}
+
+/* Custom class for the table */
+.custom-table .ant-table {
+  background-color: #1e1e1e !important; /* Table background */
+  border: none; /* Remove the table border */
+}
+
+.custom-table .ant-table-thead > tr > th {
+  color: #ffffff !important; /* Table header text color */
+  font-size: large;
+}
+.custom-table .ant-table-thead > tr > th,
+.custom-table .ant-table-tbody > tr > td {
+  background-color: #1e1e1e !important; /* Ensure rows and headers have the background */
+  border: none !important; /* Remove borders between cells */
+  color: #ffffff; /* Text color */
+}
+
+/* Disable hover effect */
+.custom-table .ant-table-tbody > tr:hover > td {
+  background-color: #1e1e1e !important; /* Keep the same background on hover */
+}
+/* Custom class for the table */
+.custom-table .ant-table-tbody > tr > td:nth-child(2),
+.custom-table .ant-table-tbody > tr > td:nth-child(3),
+.custom-table .ant-table-tbody > tr > td:nth-child(4) {
+  border-left: none !important; /* Remove left border for specific columns */
+}
+
+/* Custom styles for the Ant Design Table */
+.custom-table .ant-table {
+  color: #f56565; /* Tailwind's red-500 color hex value */
+}
+
+/* Custom styles for the Ant Design Table body */
+.custom-table .ant-table-tbody > tr > td {
+  color: #ffffffcc; /* Tailwind's red-500 color hex value */
+}
+
+.custom-modal .ant-modal-content {
+  background-color: #050000 !important;
+}
+
+.custom-modal .ant-modal-header {
+  background-color: #050000 !important;
+  border-bottom: none;
+}
+
+.custom-modal .ant-modal-footer {
+  background-color: #050000 !important;
+  border-top: none;
+}
+
+.custom-modal .ant-modal-body {
+  background-color: #050000 !important;
+  color: white;
+}
+
+.custom-modal .ant-radio-group .ant-radio-wrapper {
+  color: white;
+}
+
+
+
+
+.category-button {
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 700;
+  color: white;
+  background: transparent;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.category-button:hover {
+  background-color: transparent;
+}
+
+.active-tab {
+  background-color: #EBCA7E;
+  color: #000000;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 8px;
+}
+
+.ant-tabs-nav {
+  border-bottom: none !important;
+}
+
+.ant-tabs-tab {
+  margin-right: 16px;
+}
+
+.ant-collapse .ant-collapse-content > .ant-collapse-content-box {
+  background-color: #F2F4F7;
+}
+
+.ant-rate-star {
+  color: white; /* Default star color */
+}
+
+.ant-rate-star.ant-rate-star-full {
+  color: red; /* Selected star color */
+}
+
+.custom-input {
+  height: 44px;
+  background-color: #4B4B4B;
+  border: none;
+  color: black !important;
+}
+
+.custom-input::placeholder {
+  color: black !important;
+}
+
+/* Custom styles for Ant Design components */
+.ant-input::placeholder {
+  color: black !important;
+}
+
+.ant-picker-input,
+.ant-picker-input input {
+  color: white !important;
+}
+
+.custom-select .ant-select-selector,
+.custom-select .ant-select-dropdown,
+.custom-select .ant-select-item {
+  background-color: #4b4b4b !important;
+  color: #ffffffcc !important;
+}
+
+.custom-table .ant-table {
+  background-color: #242424 !important;
+  border: none;
+  color: #ffffff !important;
+}
+.custom-modal {
+  background-color: #242424 !important;
+}
+
+.notification-modal {
+  position: absolute;
+  top: 90px;
+  left: 0;
+  right: 0;
+  background: black;
+  padding: 16px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+}
+ul.ant-dropdown-menu.ant-dropdown-menu-root.ant-dropdown-menu-vertical.ant-dropdown-menu-light{
+  background-color: #ffffff;
+  border: none;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+
+}
+span.ant-dropdown-menu-title-content {
+  color: black;
+  font-weight: 600;
+  font-size: 16px;
+}
