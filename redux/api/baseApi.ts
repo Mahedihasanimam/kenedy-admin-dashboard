@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import Swal from "sweetalert2";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "http://10.0.80.85:1010/",
+  baseUrl: "http://10.0.80.85:1010",
   // baseUrl: "https://nail-flags-gnome-receiver.trycloudflare.com/",
   // timeout: 10000,
   prepareHeaders: async (headers, { getState }) => {
