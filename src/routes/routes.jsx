@@ -1,34 +1,29 @@
-import { createBrowserRouter } from 'react-router-dom';
-import Main from '../layouts/Main';
-
-import Dashboardmain from './../pages/Dashboardmain';
-import Notification from './../components/Notification';
-
-
-import ManageUsers from '../components/ManageUsers';
-
-
-
-
-import Login from '../components/LayoutsComponents/Login';
-import Forgetpasswrod from '../components/Forgetpasswrod';
-import OTPverification from '../components/OTPverification';
-import EditContent from './../components/editcontent/EditContent';
-import Personalinfo from '../components/personalinfo';
-import Security from '../components/Security';
-import MakeAdmin from '../components/LayoutsComponents/MakeAdmin';
-import AddBooks from '../components/LayoutsComponents/AddBooks';
-import AddPodcast from '../components/LayoutsComponents/AddPodcast';
-import FAQpage from '../components/LayoutsComponents/FAQpage';
-import TermsAndConDitions from '../components/LayoutsComponents/TermsAndConDitions';
-import AboutUs from '../components/LayoutsComponents/AboutUs';
-
-
+import { createBrowserRouter } from "react-router-dom";
+import Forgetpasswrod from "../components/Forgetpasswrod";
+import AboutUs from "../components/LayoutsComponents/AboutUs";
+import AddBooks from "../components/LayoutsComponents/AddBooks";
+import AddPodcast from "../components/LayoutsComponents/AddPodcast";
+import FAQpage from "../components/LayoutsComponents/FAQpage";
+import Login from "../components/LayoutsComponents/Login";
+import MakeAdmin from "../components/LayoutsComponents/MakeAdmin";
+import TermsAndConDitions from "../components/LayoutsComponents/TermsAndConDitions";
+import OTPverification from "../components/OTPverification";
+import Personalinfo from "../components/personalinfo";
+import Security from "../components/Security";
+import Main from "../layouts/Main";
+import EditContent from "./../components/editcontent/EditContent";
+import Notification from "./../components/Notification";
+import Dashboardmain from "./../pages/Dashboardmain";
+import PrivateRoutes from "./PrivateRoutes";
 
 const router = createBrowserRouter([
   {
-    path: '/',
-    element: <Main />,
+    path: "/",
+    element: (
+      <PrivateRoutes>
+        <Main />
+      </PrivateRoutes>
+    ),
     children: [
       {
         path: "/",
@@ -36,65 +31,64 @@ const router = createBrowserRouter([
       },
       {
         path: "/notification",
-        element: <Notification/>,
+        element: <Notification />,
       },
       {
         path: "/makeadmin",
-        element: <MakeAdmin/>,
+        element: <MakeAdmin />,
       },
       {
         path: "/addbooks",
-        element: <AddBooks/>,
+        element: <AddBooks />,
       },
       {
         path: "/addpodcast",
-        element: <AddPodcast/>,
+        element: <AddPodcast />,
       },
       {
         path: "/FAQ",
-        element: <FAQpage/>,
+        element: <FAQpage />,
       },
       {
         path: "/termsandconditions",
-        element: <TermsAndConDitions/>,
+        element: <TermsAndConDitions />,
       },
       {
         path: "/aboutus",
-        element: <AboutUs/>
+        element: <AboutUs />,
       },
-    
+
       {
         path: "/editcontent",
-        element:<EditContent/>
+        element: <EditContent />,
       },
       {
         path: "/personalinfo",
-        element:<Personalinfo/>
+        element: <Personalinfo />,
       },
       {
         path: "/personalinfo",
-        element:<Personalinfo/>
+        element: <Personalinfo />,
       },
-     
+
       {
         path: "/security",
-        element:<Security/>
+        element: <Security />,
       },
       {
         path: "/login",
-        element:<Login/>
+        element: <Login />,
       },
       {
         path: "/forgot-password",
-        element:<Forgetpasswrod/>
+        element: <Forgetpasswrod />,
       },
       {
         path: "/otpverification",
-        element:<OTPverification/>
+        element: <OTPverification />,
       },
-    ]
+    ],
   },
-
 ]);
 
 export default router;

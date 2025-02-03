@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
 import { Button, Layout, theme } from "antd";
+import { useEffect, useState } from "react";
+
 import { RxHamburgerMenu } from "react-icons/rx";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const { Header } = Layout;
 
@@ -45,13 +45,13 @@ const MainHeader = ({ setCollapsed, collapsed }) => {
         document.title = "Hello, Ali 👋🏼";
         break;
       case "/notification":
-        document.title = "Notifications - Your App";
+        document.title = "Notifications - Admin Dashboard";
         break;
       case "/profile":
-        document.title = "Profile - Your App";
+        document.title = "Profile - Admin Dashboard";
         break;
       default:
-        document.title = "Your App";
+        document.title = "Admin Dashboard";
     }
   }, [location]);
 
@@ -66,9 +66,7 @@ const MainHeader = ({ setCollapsed, collapsed }) => {
         <div className="flex justify-between pr-4 bg-primary font-popins">
           <Button
             type="text"
-            icon={
-              <RxHamburgerMenu className="text-white -ml-8 w-8 h-8" />
-            }
+            icon={<RxHamburgerMenu className="text-white -ml-8 w-8 h-8" />}
             onClick={() => setCollapsed(!collapsed)}
             className="text-white"
             style={{
@@ -85,11 +83,23 @@ const MainHeader = ({ setCollapsed, collapsed }) => {
             </div>
             <div className="text-white">
               <Link to="/notification" className="text-white">
-              <svg width="47" height="47" viewBox="0 0 47 47" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect width="47" height="47" rx="12" fill="#FFF6FF"/>
-<path d="M23.5 16C20.4624 16 18 18.4624 18 21.5V26H17V27H30V26H29V21.5C29 18.4624 26.5376 16 23.5 16Z" fill="#FF0048"/>
-<path d="M21 28.5V28H26V28.5C26 29.8807 24.8807 31 23.5 31C22.1193 31 21 29.8807 21 28.5Z" fill="#FF0048"/>
-</svg>
+                <svg
+                  width="47"
+                  height="47"
+                  viewBox="0 0 47 47"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <rect width="47" height="47" rx="12" fill="#FFF6FF" />
+                  <path
+                    d="M23.5 16C20.4624 16 18 18.4624 18 21.5V26H17V27H30V26H29V21.5C29 18.4624 26.5376 16 23.5 16Z"
+                    fill="#FF0048"
+                  />
+                  <path
+                    d="M21 28.5V28H26V28.5C26 29.8807 24.8807 31 23.5 31C22.1193 31 21 29.8807 21 28.5Z"
+                    fill="#FF0048"
+                  />
+                </svg>
               </Link>
             </div>
           </div>
