@@ -35,7 +35,7 @@ const paymentApi = api.injectEndpoints({
     updateFAQ: builder.mutation({
       query: ({ data, id }) => ({
         url: `/faq/update-faq`,
-        method: "POST",
+        method: "PUT",
         body: data,
       }),
       invalidatesTags: ["faq"],
@@ -43,7 +43,7 @@ const paymentApi = api.injectEndpoints({
     deleteFAQ: builder.mutation({
       query: (id) => ({
         url: `/faq/delete-faq/${id}`,
-        method: "POST",
+        method: "DELETE",
       }),
       invalidatesTags: ["faq"],
     }),

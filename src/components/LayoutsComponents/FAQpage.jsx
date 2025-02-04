@@ -1,69 +1,167 @@
+import { Button, Form, Input, Modal } from "antd";
 import React, { useState } from "react";
-import { Modal, Button, Input, Form } from "antd";
+import {
+  useAddNewFAQMutation,
+  useDeleteFAQMutation,
+  useGetAllFAQsQuery,
+  useUpdateFAQMutation,
+} from "../../../redux/apiSlices/settingApiSlice";
+
+import { PlusOutlined } from "@ant-design/icons";
+import Swal from "sweetalert2";
 
 const FAQpage = () => {
-  const [faqList, setFaqList] = useState([
-    { id: 1, question: "How to add an admin?", answer: "Go to the Admin panel and click on 'Add Admin'." },
-    { id: 2, question: "How to delete a user?", answer: "Go to the Users tab and click the delete button for the user." },
-    { id: 3, question: "How to reset a password?", answer: "Click 'Forgot Password' on the login page." },
-  ]);
+  const { data: FAQs } = useGetAllFAQsQuery({});
+  const [addNewFaq] = useAddNewFAQMutation();
+  const [deleteFaq] = useDeleteFAQMutation();
+  const [updateFaq] = useUpdateFAQMutation();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
   const [currentFaq, setCurrentFaq] = useState(null);
   const [form] = Form.useForm();
 
-  // Open modal for editing
-  const handleEdit = (faq) => {
-    setCurrentFaq(faq);
-    form.setFieldsValue(faq); // Set initial values in the form
+  const showModal = (faq = null) => {
+    if (faq) {
+      setCurrentFaq(faq);
+      form.setFieldsValue({
+        question: faq.question,
+        answer: faq.answer,
+      });
+      setIsEditMode(true);
+    } else {
+      form.resetFields();
+      setIsEditMode(false);
+    }
     setIsModalOpen(true);
   };
 
-  // Handle save after editing
   const handleSave = (values) => {
-    setFaqList((prevFaqs) =>
-      prevFaqs.map((faq) =>
-        faq.id === currentFaq.id
-          ? { ...faq, question: values.question, answer: values.answer }
-          : faq
-      )
-    );
-    setIsModalOpen(false);
+    if (isEditMode && currentFaq) {
+      // Update FAQ
+      values.faqId = currentFaq._id;
+      updateFaq({ id: currentFaq._id, data: values })
+        .then(() => {
+          Swal.fire({
+            icon: "success",
+            title: "FAQ Updated Successfully!",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          setIsModalOpen(false);
+        })
+        .catch(() => {
+          Swal.fire({
+            icon: "error",
+            title: "Failed to Update FAQ!",
+          });
+        });
+    } else {
+      // Add new FAQ
+      addNewFaq(values)
+        .then(() => {
+          Swal.fire({
+            icon: "success",
+            title: "FAQ Added Successfully!",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          setIsModalOpen(false);
+        })
+        .catch(() => {
+          Swal.fire({
+            icon: "error",
+            title: "Failed to Add FAQ!",
+          });
+        });
+    }
     form.resetFields();
+  };
+
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteFaq(id)
+          .then(() => {
+            Swal.fire({
+              icon: "success",
+              title: "FAQ Deleted Successfully!",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          })
+          .catch(() => {
+            Swal.fire({
+              icon: "error",
+              title: "Failed to Delete FAQ!",
+            });
+          });
+      }
+    });
+  };
+
+  const handleCancel = () => {
+    form.resetFields();
+    setIsModalOpen(false);
   };
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
-      <h1 className="text-2xl font-bold mb-6">FAQ Management</h1>
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold">FAQ Management</h1>
+        <Button
+          type="primary"
+          icon={<PlusOutlined />}
+          onClick={() => showModal()}
+          style={{ backgroundColor: "#FF0048", color: "white" }}
+          className="flex items-center"
+        >
+          Add FAQ
+        </Button>
+      </div>
       <div className="space-y-4">
-        {faqList.map((faq) => (
+        {FAQs?.data?.map((faq) => (
           <div
             key={faq.id}
             className="bg-white border rounded-lg p-4 shadow-md flex justify-between items-center"
           >
             <div>
-              <h2 className="text-lg font-semibold text-gray-800">{faq.question}</h2>
+              <h2 className="text-lg font-semibold text-gray-800">
+                {faq.question}
+              </h2>
               <p className="text-gray-600">{faq.answer}</p>
             </div>
-            <Button
-              type="primary"
-              onClick={() => handleEdit(faq)}
-              style={{
-                backgroundColor: "#FF0048",
-                borderColor: "#FF0048",
-              }}
-            >
-              Edit
-            </Button>
+            <div className="flex space-x-2">
+              <Button
+                type="primary"
+                onClick={() => showModal(faq)}
+                style={{
+                  backgroundColor: "#FF0048",
+                  borderColor: "#FF0048",
+                }}
+              >
+                Edit
+              </Button>
+              <Button type="danger" onClick={() => handleDelete(faq._id)}>
+                Delete
+              </Button>
+            </div>
           </div>
         ))}
       </div>
 
-      {/* Modal for Editing FAQ */}
       <Modal
-        title="Edit FAQ"
+        title={isEditMode ? "Edit FAQ" : "Add FAQ"}
         visible={isModalOpen}
-        onCancel={() => setIsModalOpen(false)}
+        onCancel={handleCancel}
         footer={null}
       >
         <Form form={form} onFinish={handleSave}>
@@ -82,9 +180,13 @@ const FAQpage = () => {
             <Input.TextArea rows={4} placeholder="Enter the answer" />
           </Form.Item>
           <div className="flex justify-end space-x-4">
-            <Button onClick={() => setIsModalOpen(false)}>Cancel</Button>
-            <Button type="primary" htmlType="submit" style={{ backgroundColor: "#FF0048", borderColor: "#FF0048" }}>
-              Save
+            <Button onClick={handleCancel}>Cancel</Button>
+            <Button
+              type="primary"
+              htmlType="submit"
+              style={{ backgroundColor: "#FF0048", borderColor: "#FF0048" }}
+            >
+              {isEditMode ? "Update" : "Save"}
             </Button>
           </div>
         </Form>
