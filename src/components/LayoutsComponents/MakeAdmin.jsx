@@ -1,30 +1,19 @@
-import React, { useState } from "react";
-import { Table, Button, Modal, Form, Input, Select } from "antd";
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
-
+import { Button, Form, Input, Modal, Select, Table, message } from "antd";
+import React, { useState } from "react";
+import {
+  useAllUserQuery,
+  useCreateAdminMutation,
+} from "../../../redux/apiSlices/userApis";
 const MakeAdmin = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [filterAdmins, setFilterAdmins] = useState("admin");
   const [form] = Form.useForm();
-  const [admins, setAdmins] = useState([
-    {
-      key: "1",
-      name: "Asad",
-      email: "asad@gmail.com",
-      adminType: "Super admin",
-    },
-    {
-      key: "2",
-      name: "Jaman",
-      email: "jaman@gmail.com",
-      adminType: "Simple admin",
-    },
-    {
-      key: "3",
-      name: "Mahfuz",
-      email: "mahfuz@gmail",
-      adminType: "Simple admin",
-    },
-  ]);
+  const { data: admins } = useAllUserQuery({ role: filterAdmins });
+
+  const [makeAdmin] = useCreateAdminMutation();
+
+  console.log(admins);
 
   // Show the modal
   const showModal = () => {
@@ -32,17 +21,22 @@ const MakeAdmin = () => {
   };
 
   // Handle adding a new admin
-  const handleOk = () => {
+  const handleOk = async () => {
     form
       .validateFields()
       .then((values) => {
-        const newAdmin = {
-          key: `${admins.length + 1}`, // Dynamically add key
-          ...values,
-        };
-        setAdmins([...admins, newAdmin]); // Add the new admin to the list
-        form.resetFields(); // Reset form fields
-        setIsModalOpen(false); // Close the modal
+        console.log("Form Values:", values);
+        makeAdmin(values)
+          .unwrap()
+          .then((res) => {
+            message.success(res.message);
+            form.resetFields(); // Reset form fields
+            setIsModalOpen(false); // Close the modal
+          })
+          .catch((error) => {
+            console.log(error);
+            message.error(error.data.message);
+          });
       })
       .catch((info) => console.log("Validation Failed:", info));
   };
@@ -55,8 +49,7 @@ const MakeAdmin = () => {
 
   // Handle delete
   const handleDelete = (key) => {
-    const updatedAdmins = admins.filter((admin) => admin.key !== key);
-    setAdmins(updatedAdmins); // Update the admin list
+    console.log(key);
   };
 
   // Table columns
@@ -79,8 +72,8 @@ const MakeAdmin = () => {
     },
     {
       title: "Admin Type",
-      dataIndex: "adminType",
-      key: "adminType",
+      dataIndex: "role",
+      key: "role",
     },
     {
       title: "Action",
@@ -96,6 +89,10 @@ const MakeAdmin = () => {
     },
   ];
 
+  const handleChange = (value) => {
+    setFilterAdmins(value);
+  };
+
   return (
     <div className="p-6 min-h-screen">
       <div className="flex justify-between items-center mb-4">
@@ -109,9 +106,20 @@ const MakeAdmin = () => {
           Create Admin Profile
         </Button>
       </div>
+      <div className="mb-4 flex justify-end">
+        <Select
+          defaultValue="Filter"
+          style={{ width: 120 }}
+          onChange={handleChange}
+          options={[
+            { value: "admin", label: "Admin" },
+            { value: "superadmin", label: "Super Admin" },
+          ]}
+        />
+      </div>
       <Table
         columns={columns}
-        dataSource={admins} // Use the updated admin list
+        dataSource={admins?.data?.result} // Use the updated admin list
         pagination={false}
         className="border rounded-md shadow-md"
       />
@@ -128,20 +136,22 @@ const MakeAdmin = () => {
           <Form.Item
             label="Name"
             name="name"
-            rules={[{ required: true, message: "Please enter the admin name!" }]}
+            rules={[
+              { required: true, message: "Please enter the admin name!" },
+            ]}
           >
             <Input placeholder="Enter admin name" />
           </Form.Item>
           <Form.Item
             label="Admin Type"
-            name="adminType"
+            name="role"
             rules={[
               { required: true, message: "Please select the admin type!" },
             ]}
           >
             <Select placeholder="Select admin type">
-              <Select.Option value="Super admin">Super Admin</Select.Option>
-              <Select.Option value="Simple admin">Simple Admin</Select.Option>
+              <Select.Option value="superadmin">Super Admin</Select.Option>
+              <Select.Option value="admin">Simple Admin</Select.Option>
             </Select>
           </Form.Item>
           <Form.Item
@@ -157,9 +167,7 @@ const MakeAdmin = () => {
           <Form.Item
             label="Password"
             name="password"
-            rules={[
-              { required: true, message: "Please enter the password!" },
-            ]}
+            rules={[{ required: true, message: "Please enter the password!" }]}
           >
             <Input.Password placeholder="Enter password" />
           </Form.Item>

@@ -27,8 +27,8 @@ const userApis = api.injectEndpoints({
     }),
 
     allUser: builder.query({
-      query: ({ page, limit, search }) => ({
-        url: `/users`,
+      query: ({ page, limit, role, search }) => ({
+        url: `/users/?role=${role}&page=${page}&limit=${limit}&search=${search}`,
       }),
       providesTags: ["user"],
     }),
@@ -77,6 +77,7 @@ const userApis = api.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["user"],
     }),
 
     verifyEmail: builder.mutation({

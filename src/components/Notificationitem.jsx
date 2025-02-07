@@ -68,7 +68,7 @@ const Notificationitem = () => {
                   </div>
                   <div>
                     {!notification?.isRead && (
-                      <p className="timestamp text-[#FFFFFFB2] flex items-center">
+                      <p className="timestamp text-[#FFFFFFB2] fl010ex items-center">
                         <p className="pr-2">{notification.timestamp}</p>{" "}
                         <svg
                           width="6"
