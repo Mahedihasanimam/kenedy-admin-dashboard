@@ -1,9 +1,10 @@
+import { Button, Form, Input, Modal, Select, Upload } from "antd";
 import {
   DeleteOutlined,
+  LoadingOutlined,
   PlusOutlined,
   UploadOutlined,
 } from "@ant-design/icons";
-import { Button, Form, Input, Modal, Select, Upload } from "antd";
 import React, { useState } from "react";
 import {
   useAddBookMutation,
@@ -17,6 +18,7 @@ import { imageUrl } from "../../../redux/api/baseApi";
 
 const BooksCollection = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [addLoader, setAddLoader] = useState(false);
   const [form] = Form.useForm();
   const [books, setBooks] = useState(null);
 
@@ -38,7 +40,7 @@ const BooksCollection = () => {
       });
 
       if (result.isConfirmed) {
-        await deleteBook(id); // Assuming deleteBook is a function that deletes the book
+        await deleteBook(id);
         Swal.fire({
           icon: "success",
           title: "Book Deleted Successfully!",
@@ -67,14 +69,13 @@ const BooksCollection = () => {
   const [pdfFileList, setPdfFileList] = useState([]);
 
   const showModal = (book = null) => {
+    // console.log(book);
     if (book) {
-      console.log(book?.language);
-      // Populate form fields
       form.setFieldsValue({
         bookName: book.bookName,
         authorName: book.authorName,
         description: book.description,
-        language: book.language,
+        languages: book?.languages,
       });
 
       book?.bookCoverImage &&
@@ -107,14 +108,16 @@ const BooksCollection = () => {
   };
 
   const handleOk = async () => {
+    setAddLoader(true);
     form
       .validateFields()
       .then((values) => {
+        console.log(values);
         const formData = new FormData();
         formData.append("bookName", values.bookName);
         formData.append("authorName", values.authorName);
         formData.append("description", values.description);
-        formData.append("language", values.language);
+        formData.append("languages", values.languages);
 
         // Add image file
         if (imageFileList.length && imageFileList[0]?.originFileObj) {
@@ -122,17 +125,16 @@ const BooksCollection = () => {
         }
 
         // Add PDF files
-        pdfFileList.forEach((file) => {
+        pdfFileList.forEach((file, i) => {
           if (file.originFileObj) {
-            formData.append("pdfFiles", file.originFileObj);
+            formData.append(`pdfFiles`, file.originFileObj);
           }
         });
-
-        console.log(editingBook);
 
         if (editingBook) {
           formData.append("id", editingBook._id);
           updateBook({ data: formData, id: editingBook._id }).then(() => {
+            setAddLoader(false);
             Swal.fire({
               icon: "success",
               title: "Book Updated Successfully!",
@@ -142,6 +144,7 @@ const BooksCollection = () => {
           });
         } else {
           addBook(formData).then(() => {
+            setAddLoader(false);
             Swal.fire({
               icon: "success",
               title: "Book Added Successfully!",
@@ -158,6 +161,7 @@ const BooksCollection = () => {
         setIsModalOpen(false);
       })
       .catch((info) => {
+        setAddLoader(false);
         console.error("Validation Failed:", info);
       });
   };
@@ -172,6 +176,21 @@ const BooksCollection = () => {
 
   return (
     <div className="p-6">
+      <>
+        {addLoader && (
+          <div>
+            <div className="fixed inset-0 bg-black opacity-50 z-50"></div>
+            <div className="fixed inset-0 flex items-center justify-center z-50">
+              <div className="bg-white p-4 rounded-lg">
+                <div className="flex items-center">
+                  <LoadingOutlined className="text-primary mr-2" />
+                  <span>Loading...</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </>
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-xl font-semibold">Books Collection</h1>
         <Button
@@ -199,6 +218,16 @@ const BooksCollection = () => {
               {book.bookName}
             </h2>
             <p className="text-tertiary">{book.authorName}</p>
+            <p className="text-sm mt-2">
+              <strong>Languages:</strong>{" "}
+              {(book?.languages?.length > 0 &&
+                book?.languages?.map((lang) => (
+                  <span key={lang} className="mr-2 capitalize ">
+                    {lang}
+                  </span>
+                ))) ||
+                "Not specified"}
+            </p>
             <div className="mt-2 flex gap-2">
               <Button
                 type="primary"
@@ -288,15 +317,20 @@ const BooksCollection = () => {
             </Upload>
           </Form.Item>
           <Form.Item
-            label="Language"
-            name="language"
-            rules={[{ required: true, message: "Please select a language!" }]}
+            label="Languages"
+            name="languages"
+            rules={[
+              {
+                required: true,
+                message: "Please select at least one language!",
+              },
+            ]}
           >
-            <Select placeholder="Select language">
-              <Select.Option value="English">English</Select.Option>
-              <Select.Option value="Bengali">Bengali</Select.Option>
-              <Select.Option value="Spanish">Spanish</Select.Option>
-              <Select.Option value="French">French</Select.Option>
+            <Select mode="multiple" placeholder="Select languages" allowClear>
+              <Select.Option value="english">English</Select.Option>
+              <Select.Option value="spanish">Spanish</Select.Option>
+              <Select.Option value="french">French</Select.Option>
+              <Select.Option value="chinese">Chinese</Select.Option>
             </Select>
           </Form.Item>
         </Form>

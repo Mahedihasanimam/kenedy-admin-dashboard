@@ -1,20 +1,21 @@
-import { createBrowserRouter } from "react-router-dom";
-import Forgetpasswrod from "../components/Forgetpasswrod";
 import AboutUs from "../components/LayoutsComponents/AboutUs";
 import AddBooks from "../components/LayoutsComponents/AddBooks";
 import AddPodcast from "../components/LayoutsComponents/AddPodcast";
+import CreateNewPassword from "../components/CreateNewPassword";
+import Dashboardmain from "./../pages/Dashboardmain";
+import EditContent from "./../components/editcontent/EditContent";
 import FAQpage from "../components/LayoutsComponents/FAQpage";
+import Forgetpasswrod from "../components/LayoutsComponents/Forgetpasswrod";
 import Login from "../components/LayoutsComponents/Login";
+import Main from "../layouts/Main";
 import MakeAdmin from "../components/LayoutsComponents/MakeAdmin";
-import TermsAndConDitions from "../components/LayoutsComponents/TermsAndConDitions";
+import Notification from "./../components/Notification";
 import OTPverification from "../components/OTPverification";
 import Personalinfo from "../components/personalinfo";
-import Security from "../components/Security";
-import Main from "../layouts/Main";
-import EditContent from "./../components/editcontent/EditContent";
-import Notification from "./../components/Notification";
-import Dashboardmain from "./../pages/Dashboardmain";
 import PrivateRoutes from "./PrivateRoutes";
+import Security from "../components/Security";
+import TermsAndConDitions from "../components/LayoutsComponents/TermsAndConDitions";
+import { createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([
   {
@@ -27,15 +28,27 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Dashboardmain></Dashboardmain>,
+        element: (
+          <PrivateRoutes>
+            <Dashboardmain />
+          </PrivateRoutes>
+        ),
       },
       {
         path: "/notification",
-        element: <Notification />,
+        element: (
+          <PrivateRoutes>
+            <Notification />
+          </PrivateRoutes>
+        ),
       },
       {
         path: "/makeadmin",
-        element: <MakeAdmin />,
+        element: (
+          <PrivateRoutes>
+            <MakeAdmin />
+          </PrivateRoutes>
+        ),
       },
       {
         path: "/addbooks",
@@ -43,51 +56,87 @@ const router = createBrowserRouter([
       },
       {
         path: "/addpodcast",
-        element: <AddPodcast />,
+        element: (
+          <PrivateRoutes>
+            <AddPodcast />
+          </PrivateRoutes>
+        ),
       },
       {
         path: "/FAQ",
-        element: <FAQpage />,
+        element: (
+          <PrivateRoutes>
+            <FAQpage />,
+          </PrivateRoutes>
+        ),
       },
       {
         path: "/termsandconditions",
-        element: <TermsAndConDitions />,
+        element: (
+          <PrivateRoutes>
+            <TermsAndConDitions />
+          </PrivateRoutes>
+        ),
       },
       {
         path: "/aboutus",
-        element: <AboutUs />,
+        element: (
+          <PrivateRoutes>
+            <AboutUs />
+          </PrivateRoutes>
+        ),
       },
 
       {
         path: "/editcontent",
-        element: <EditContent />,
+        element: (
+          <PrivateRoutes>
+            <EditContent />,
+          </PrivateRoutes>
+        ),
       },
       {
         path: "/personalinfo",
-        element: <Personalinfo />,
+        element: (
+          <PrivateRoutes>
+            <Personalinfo />,
+          </PrivateRoutes>
+        ),
       },
       {
         path: "/personalinfo",
-        element: <Personalinfo />,
+        element: (
+          <PrivateRoutes>
+            <Personalinfo />,
+          </PrivateRoutes>
+        ),
       },
 
       {
         path: "/security",
-        element: <Security />,
-      },
-      {
-        path: "/login",
-        element: <Login />,
-      },
-      {
-        path: "/forgot-password",
-        element: <Forgetpasswrod />,
-      },
-      {
-        path: "/otpverification",
-        element: <OTPverification />,
+        element: (
+          <PrivateRoutes>
+            <Security />,
+          </PrivateRoutes>
+        ),
       },
     ],
+  },
+  {
+    path: "/forgot-password",
+    element: <Forgetpasswrod />,
+  },
+  {
+    path: "/otpverification",
+    element: <OTPverification />,
+  },
+  {
+    path: "/create-newPassword",
+    element: <CreateNewPassword />,
+  },
+  {
+    path: "/login",
+    element: <Login />,
   },
 ]);
 

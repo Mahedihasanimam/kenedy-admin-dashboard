@@ -1,10 +1,11 @@
-import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Modal, Select, Table, message } from "antd";
 import React, { useState } from "react";
 import {
   useAllUserQuery,
   useCreateAdminMutation,
 } from "../../../redux/apiSlices/userApis";
+
+import { PlusOutlined } from "@ant-design/icons";
 const MakeAdmin = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [filterAdmins, setFilterAdmins] = useState("admin");
@@ -75,18 +76,18 @@ const MakeAdmin = () => {
       dataIndex: "role",
       key: "role",
     },
-    {
-      title: "Action",
-      key: "action",
-      render: (_, record) => (
-        <Button
-          type="text"
-          danger
-          icon={<DeleteOutlined />}
-          onClick={() => handleDelete(record.key)} // Call delete function
-        />
-      ),
-    },
+    // {
+    //   title: "Action",
+    //   key: "action",
+    //   render: (_, record) => (
+    //     <Button
+    //       type="text"
+    //       danger
+    //       icon={<DeleteOutlined />}
+    //       onClick={() => handleDelete(record.key)} // Call delete function
+    //     />
+    //   ),
+    // },
   ];
 
   const handleChange = (value) => {

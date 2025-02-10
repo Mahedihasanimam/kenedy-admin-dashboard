@@ -1,11 +1,7 @@
 import { BiPodcast, BiUserPlus } from "react-icons/bi";
 import { Dropdown, Image, Layout, Menu } from "antd";
-import {
-  EditOutlined,
-  SecurityScanOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
 import { Link, NavLink } from "react-router-dom";
+import { SecurityScanOutlined, UserOutlined } from "@ant-design/icons";
 
 import { IoAddOutline } from "react-icons/io5";
 import Swal from "sweetalert2";
@@ -146,27 +142,27 @@ const Sidebar = ({ collapsed }) => {
                     </Link>
                   ),
                 },
-                {
-                  key: "3",
-                  icon: (
-                    <EditOutlined
-                      style={{ color: "#262626", fontSize: "20px" }}
-                      className="text-[#FF0048]"
-                    />
-                  ),
-                  label: (
-                    <NavLink
-                      className={({ isActive }) =>
-                        isActive
-                          ? "text-[#FF0048] opacity-70"
-                          : " text-secondary opacity-70"
-                      }
-                      to={`/editcontent`}
-                    >
-                      Banner Update
-                    </NavLink>
-                  ),
-                },
+                // {
+                //   key: "3",
+                //   icon: (
+                //     <EditOutlined
+                //       style={{ color: "#262626", fontSize: "20px" }}
+                //       className="text-[#FF0048]"
+                //     />
+                //   ),
+                //   label: (
+                //     <NavLink
+                //       className={({ isActive }) =>
+                //         isActive
+                //           ? "text-[#FF0048] opacity-70"
+                //           : " text-secondary opacity-70"
+                //       }
+                //       to={`/editcontent`}
+                //     >
+                //       Banner Update
+                //     </NavLink>
+                //   ),
+                // },
                 {
                   key: "4",
                   icon: <BiUserPlus size={25} />,
@@ -274,14 +270,18 @@ const Sidebar = ({ collapsed }) => {
                     collapsed ? "hidden" : ""
                   }`}
                 >
-                  {user?.data?.name}
+                  {user?.data?.name?.length > 20
+                    ? user?.data?.name?.slice(0, 15) + "..."
+                    : user?.data?.name}
                 </h1>
                 <span
                   className={`text-secondary text-xs font-nunito font-semibold ${
                     collapsed ? "hidden" : ""
                   }`}
                 >
-                  {user?.data?.email}
+                  {user?.data?.email?.length > 20
+                    ? user?.data?.email?.slice(0, 15) + "..."
+                    : user?.data?.email}
                 </span>
               </div>
             </div>

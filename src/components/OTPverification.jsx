@@ -1,37 +1,41 @@
+import { Button, Form, Input, message } from "antd";
 import React, { useState } from "react";
-import { Input, Form, Button } from "antd";
+
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import { useVerifyEmailMutation } from "../../redux/apiSlices/userApis";
 
-const OTPverification = ({
-  title = "OTP Verification",
-  description = "We’ve sent you a verification code to ap...@gmail.com",
-  onFinish,
-}) => {
+const OTPverification = () => {
   const [otp, setOtp] = useState(["", "", "", ""]);
   const [form] = Form.useForm();
-const navigate=useNavigate()
-  const handleFinish = () => {
+  const params = new URLSearchParams(window.location.search);
+  const emailParam = params.get("email");
+
+  const [emailVerified] = useVerifyEmailMutation();
+
+  const navigate = useNavigate();
+  const handleFinish = async () => {
     const otpValue = otp.join("");
     console.log("Success:", { otp: otpValue });
     // Call the onFinish prop if provided
-
-    if(otpValue){
-        
-      Swal.fire({
-        title: "Success",
-        text: "OTP Verification Successfull",
-        icon: "success",
-        confirmButtonText: "OK",
-      });
-      navigate('/')
+    try {
+      const res = await emailVerified({
+        email: emailParam,
+        emailVerifyCode: otpValue,
+      }).unwrap();
+      if (res?.success) {
+        Swal.fire({
+          title: "Success",
+          text: "OTP Verification Successfull",
+          icon: "success",
+          confirmButtonText: "OK",
+        });
+        form.resetFields();
+        navigate("/create-newPassword?email=" + emailParam);
+      }
+    } catch (error) {
+      message.error(error.data.message);
     }
-    if (onFinish) {
-      onFinish({ otp: otpValue });
-
-
-    }
-    form.resetFields();
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -49,13 +53,15 @@ const navigate=useNavigate()
     }
   };
 
-
-
   return (
     <div className="flex justify-center items-center min-h-screen bg-[#FFFFFF1A]">
       <div className="bg-white p-[40px] w-fit max-w-xl rounded-lg space-y-4">
-        <h2 className="text-2xl font-bold  text-secondary pt-12">{title}</h2>
-        <p className="text-secondary   opacity-70 text-sm">{description}</p>
+        <h2 className="text-2xl font-bold  text-secondary pt-12">
+          OTP Verification
+        </h2>
+        <p className="text-secondary   opacity-70 text-sm">
+          We’ve sent you a verification code to {emailParam}
+        </p>
 
         <Form
           layout="vertical"
@@ -83,21 +89,23 @@ const navigate=useNavigate()
                   fontSize: "24px",
                   fontWeight: "bold",
                   color: "#fffff ",
-                
+
                   backgroundColor: "white",
                 }}
               />
             ))}
           </div>
 
-      
-
           <Form.Item className="pt-6">
             <Button
               className="text-[#FFFFFF] text-[16px] font-semibold p-6"
               size="large"
               type="primary"
-              style={{backgroundColor: "#FF0048", height: "44px",color:'white'}}
+              style={{
+                backgroundColor: "#FF0048",
+                height: "44px",
+                color: "white",
+              }}
               htmlType="submit"
               block
             >
