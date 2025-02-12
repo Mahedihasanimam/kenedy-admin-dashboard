@@ -7,15 +7,15 @@ import {
 
 import { PlusOutlined } from "@ant-design/icons";
 
-const MakeAdmin = () => {
+const ManageUsers = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [filterAdmins, setFilterAdmins] = useState("admin");
+  const [filterUsers, setFilterUsers] = useState("");
   const [form] = Form.useForm();
-  const { data: admins } = useAllUserQuery({ role: filterAdmins });
+  const { data: users } = useAllUserQuery({ role: filterUsers });
 
   const [makeAdmin] = useCreateAdminMutation();
 
-  console.log(admins);
+  console.log(users);
 
   // Show the modal
   const showModal = () => {
@@ -92,7 +92,7 @@ const MakeAdmin = () => {
   ];
 
   const handleChange = (value) => {
-    setFilterAdmins(value);
+    setFilterUsers(value);
   };
 
   return (
@@ -114,6 +114,7 @@ const MakeAdmin = () => {
           style={{ width: 120 }}
           onChange={handleChange}
           options={[
+            { value: "", label: "Users" },
             { value: "admin", label: "Admin" },
             { value: "superadmin", label: "Super Admin" },
           ]}
@@ -121,12 +122,12 @@ const MakeAdmin = () => {
       </div>
       <Table
         columns={columns}
-        dataSource={admins?.data?.result} // Use the updated admin list
-        className="border rounded-md shadow-md"
+        dataSource={users?.data?.result} // Use the updated admin list
         pagination={{
           pageSize: 10, // Number of rows per page
           //   showSizeChanger: true, // Allow users to change page size
         }}
+        className="border rounded-md shadow-md"
       />
 
       <Modal
@@ -202,4 +203,4 @@ const MakeAdmin = () => {
   );
 };
 
-export default MakeAdmin;
+export default ManageUsers;

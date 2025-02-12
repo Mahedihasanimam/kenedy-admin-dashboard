@@ -178,12 +178,12 @@
 }
 
 .custom-input::placeholder {
-  color: black !important;
+  color: rgb(136, 136, 136) !important;
 }
 
 /* Custom styles for Ant Design components */
 .ant-input::placeholder {
-  color: black !important;
+  color: rgb(136, 136, 136) !important;
 }
 
 .ant-picker-input,

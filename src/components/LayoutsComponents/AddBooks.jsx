@@ -82,7 +82,7 @@ const BooksCollection = () => {
         setImageFileList([
           {
             uid: "-1",
-            name: book.bookCoverImage.split("/").pop(),
+            name: book.bookCoverImage.split("/").pop()?.split("-")?.pop(),
             url: imageUrl + book.bookCoverImage,
           },
         ]);
@@ -91,8 +91,9 @@ const BooksCollection = () => {
         setPdfFileList(
           book.pdfUrls.map((pdfUrl, index) => ({
             uid: `${index}`,
-            name: pdfUrl.split("/").pop(),
+            name: pdfUrl.split("/").pop()?.split("-")?.pop(),
             url: pdfUrl,
+            type: "application/pdf",
           }))
         );
 
@@ -111,7 +112,7 @@ const BooksCollection = () => {
     setAddLoader(true);
     form
       .validateFields()
-      .then((values) => {
+      .then(async (values) => {
         console.log(values);
         const formData = new FormData();
         formData.append("bookName", values.bookName);
@@ -125,11 +126,29 @@ const BooksCollection = () => {
         }
 
         // Add PDF files
-        pdfFileList.forEach((file, i) => {
+        for (const file of pdfFileList) {
           if (file.originFileObj) {
-            formData.append(`pdfFiles`, file.originFileObj);
+            // Directly append if it's a file object
+            formData.append("pdfFiles", file.originFileObj);
+          } else {
+            // Fetch the file from the URL
+            const response = await fetch(imageUrl + file?.url);
+            if (!response.ok) {
+              throw new Error(`Failed to fetch file: ${file.url}`);
+            }
+            const blob = await response.blob(); // Convert to blob
+            // console.log(blob);
+            const fileName = file?.url.split("/").pop()?.split("-")?.pop(); // Extract file name
+
+            console.log(fileName);
+
+            // Create a new file and append it
+            formData.append(
+              "pdfFiles",
+              new File([blob], fileName, { type: "application/pdf" })
+            );
           }
-        });
+        }
 
         if (editingBook) {
           formData.append("id", editingBook._id);
@@ -173,6 +192,8 @@ const BooksCollection = () => {
     setEditingBook(null);
     setIsModalOpen(false);
   };
+
+  // console.log(pdfFileList);
 
   return (
     <div className="p-6">
@@ -269,6 +290,7 @@ const BooksCollection = () => {
         onCancel={handleCancel}
         okText={editingBook ? "Update Book" : "Add Book"}
         cancelText="Cancel"
+        centered
       >
         <Form layout="vertical" form={form}>
           <Form.Item

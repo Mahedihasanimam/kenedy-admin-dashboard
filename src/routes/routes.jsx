@@ -1,6 +1,7 @@
 import AboutUs from "../components/LayoutsComponents/AboutUs";
 import AddBooks from "../components/LayoutsComponents/AddBooks";
 import AddPodcast from "../components/LayoutsComponents/AddPodcast";
+import ApprovedAffiliate from "../components/LayoutsComponents/AprrovedAffiliate";
 import CreateNewPassword from "../components/CreateNewPassword";
 import Dashboardmain from "./../pages/Dashboardmain";
 import EditContent from "./../components/editcontent/EditContent";
@@ -9,6 +10,7 @@ import Forgetpasswrod from "../components/LayoutsComponents/Forgetpasswrod";
 import Login from "../components/LayoutsComponents/Login";
 import Main from "../layouts/Main";
 import MakeAdmin from "../components/LayoutsComponents/MakeAdmin";
+import ManageUsers from "../components/LayoutsComponents/ManageUsers";
 import Notification from "./../components/Notification";
 import OTPverification from "../components/OTPverification";
 import Personalinfo from "../components/personalinfo";
@@ -47,6 +49,22 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoutes>
             <MakeAdmin />
+          </PrivateRoutes>
+        ),
+      },
+      {
+        path: "/affiliate",
+        element: (
+          <PrivateRoutes>
+            <ApprovedAffiliate />
+          </PrivateRoutes>
+        ),
+      },
+      {
+        path: "/manage-users",
+        element: (
+          <PrivateRoutes>
+            <ManageUsers />
           </PrivateRoutes>
         ),
       },

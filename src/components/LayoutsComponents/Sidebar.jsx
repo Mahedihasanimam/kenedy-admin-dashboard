@@ -1,4 +1,4 @@
-import { BiPodcast, BiUserPlus } from "react-icons/bi";
+import { BiPodcast, BiUser, BiUserPlus } from "react-icons/bi";
 import { Dropdown, Image, Layout, Menu } from "antd";
 import { Link, NavLink } from "react-router-dom";
 import { SecurityScanOutlined, UserOutlined } from "@ant-design/icons";
@@ -163,6 +163,41 @@ const Sidebar = ({ collapsed }) => {
                 //     </NavLink>
                 //   ),
                 // },
+                {
+                  key: "4",
+                  icon: <BiUser size={25} />,
+                  label: (
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive
+                          ? "text-[#FF0048] opacity-70"
+                          : " text-secondary opacity-70"
+                      }
+                      to={`/manage-users`}
+                    >
+                      {" "}
+                      Manage Users
+                    </NavLink>
+                  ),
+                },
+                {
+                  key: "4",
+                  icon: <BiUserPlus size={25} />,
+                  label: (
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive
+                          ? "text-[#FF0048] opacity-70"
+                          : " text-secondary opacity-70"
+                      }
+                      to={`/affiliate`}
+                    >
+                      {" "}
+                      Affiliates
+                    </NavLink>
+                  ),
+                },
+
                 {
                   key: "4",
                   icon: <BiUserPlus size={25} />,

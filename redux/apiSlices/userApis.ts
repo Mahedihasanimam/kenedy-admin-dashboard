@@ -25,6 +25,12 @@ const userApis = api.injectEndpoints({
       }),
       providesTags: ["user"],
     }),
+    getAffiliateUsers: builder.query({
+      query: () => ({
+        url: `/users/users-applied-for-affiliate`,
+      }),
+      providesTags: ["user"],
+    }),
 
     allUser: builder.query({
       query: ({ page, limit, role, search }) => ({
@@ -161,4 +167,5 @@ export const {
   useUpdateUserProfileMutation,
   useVerifyEmailMutation,
   useSendOtpAgainMutation,
+  useGetAffiliateUsersQuery,
 } = userApis;
