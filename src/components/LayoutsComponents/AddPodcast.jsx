@@ -3,7 +3,7 @@ import {
   PlusOutlined,
   UploadOutlined,
 } from "@ant-design/icons";
-import { Button, Form, Input, Modal, Upload } from "antd";
+import { Button, Form, Input, Modal, Pagination, Upload } from "antd";
 import React, { useState } from "react";
 import {
   useAddPodCastMutation,
@@ -20,8 +20,12 @@ const AddPodcast = () => {
   const [form] = Form.useForm();
   const [editingPodcast, setEditingPodcast] = useState(null);
   const [fileList, setFileList] = useState([]);
+  const [page, setPage] = useState(1);
 
-  const { data: allPodCasts } = useGetAllPodCastQuery({});
+  const { data: allPodCasts } = useGetAllPodCastQuery({
+    limit: 8,
+    page,
+  });
   const [addPodCast] = useAddPodCastMutation();
   const [updatePodCast] = useUpdatePodCastMutation();
   const [deletePodcast] = useDeletePodCastMutation();
@@ -199,6 +203,13 @@ const AddPodcast = () => {
           </div>
         ))}
       </div>
+      <Pagination
+        current={page}
+        total={allPodCasts?.data?.count || 0}
+        pageSize={8}
+        onChange={(page) => setPage(page)}
+        className="mt-6"
+      />
 
       <Modal
         title={editingPodcast ? "Edit Podcast" : "Add a New Podcast"}

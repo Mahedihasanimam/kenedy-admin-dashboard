@@ -1,10 +1,10 @@
-import { Button, Form, Input, Modal, Select, Upload } from "antd";
 import {
   DeleteOutlined,
   LoadingOutlined,
   PlusOutlined,
   UploadOutlined,
 } from "@ant-design/icons";
+import { Button, Form, Input, Modal, Pagination, Select, Upload } from "antd";
 import React, { useState } from "react";
 import {
   useAddBookMutation,
@@ -20,9 +20,13 @@ const BooksCollection = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [addLoader, setAddLoader] = useState(false);
   const [form] = Form.useForm();
-  const [books, setBooks] = useState(null);
 
-  const { data } = useGetAllBooksQuery({});
+  const [page, setPage] = useState(1);
+  const { data } = useGetAllBooksQuery({
+    limit: 8,
+    page,
+  });
+
   const [addBook] = useAddBookMutation();
   const [updateBook] = useUpdateBookMutation();
   const [deleteBook] = useDeleteBookMutation();
@@ -57,12 +61,6 @@ const BooksCollection = () => {
       });
     }
   };
-
-  React.useEffect(() => {
-    if (data) {
-      setBooks(data?.data?.result);
-    }
-  }, [data]);
 
   const [editingBook, setEditingBook] = useState(null);
   const [imageFileList, setImageFileList] = useState([]);
@@ -225,7 +223,7 @@ const BooksCollection = () => {
         </Button>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {books?.map((book) => (
+        {data?.data?.result?.map((book) => (
           <div
             key={book.id}
             className="border rounded-lg p-4 shadow-md hover:shadow-lg bg-[#C7C7C740]"
@@ -283,6 +281,14 @@ const BooksCollection = () => {
           </div>
         ))}
       </div>
+      <Pagination
+        current={page}
+        total={data?.data?.count || 0}
+        pageSize={8}
+        onChange={(page) => setPage(page)}
+        className="mt-6"
+      />
+
       <Modal
         title={editingBook ? "Edit Book" : "Add a New Book"}
         visible={isModalOpen}
