@@ -2,33 +2,10 @@
 
 import { createSlice } from "@reduxjs/toolkit";
 
-export interface IUser {
-  balance: number;
-  consultationHistory: Array<any>;
-  consultationUpcoming: Array<any>;
-  createdAt: string;
-  doctorApplicationStatus: string;
-  email: string;
-  emailVerified: false;
-  emailVerifyCode: string;
-  isActive: boolean;
-  isDoctor: boolean;
-  isLocked: boolean;
-  name: string;
-  nhsNumber: string;
-  notifications: Array<any>;
-  password: string;
-  role: string;
-  services: Array<any>;
-  updatedAt: string;
-  __v: 0;
-  _id: string;
-}
-
 const userSlice = createSlice({
   name: "user",
   initialState: {
-    user: {} as IUser,
+    user: {},
   },
   reducers: {
     setUser(state, action) {
@@ -36,7 +13,7 @@ const userSlice = createSlice({
     },
 
     clearUser(state) {
-      state.user = {} as IUser;
+      state.user = {};
     },
   },
 });

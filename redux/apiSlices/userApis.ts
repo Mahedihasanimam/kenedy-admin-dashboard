@@ -33,8 +33,10 @@ const userApis = api.injectEndpoints({
     }),
 
     allUser: builder.query({
-      query: ({ page, limit, role, search }) => ({
-        url: `/users/?role=${role}&page=${page}&limit=${limit}&search=${search}`,
+      query: ({ page, limit, role, search, isActive }) => ({
+        url: isActive
+          ? `/users/?role=${role}&page=${page}&limit=${limit}&search=${search}&isActive=${isActive}`
+          : `/users/?role=${role}&page=${page}&limit=${limit}&search=${search}`,
       }),
       providesTags: ["user"],
     }),
@@ -83,7 +85,6 @@ const userApis = api.injectEndpoints({
         method: "POST",
         body: data,
       }),
-      invalidatesTags: ["user"],
     }),
 
     verifyEmail: builder.mutation({
@@ -138,9 +139,18 @@ const userApis = api.injectEndpoints({
       }),
       invalidatesTags: ["user"],
     }),
+
     login: builder.mutation({
       query: (data) => ({
         url: `/users/auth/login`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["user"],
+    }),
+    connectToStrip: builder.mutation({
+      query: (data) => ({
+        url: `/users/auth/connect-stripe-account`,
         method: "POST",
         body: data,
       }),
@@ -167,5 +177,6 @@ export const {
   useUpdateUserProfileMutation,
   useVerifyEmailMutation,
   useSendOtpAgainMutation,
+  useConnectToStripMutation,
   useGetAffiliateUsersQuery,
 } = userApis;

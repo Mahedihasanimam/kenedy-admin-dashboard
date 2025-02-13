@@ -1,11 +1,9 @@
-import { Button, Form, Input, Modal, Select, Table, message } from "antd";
+import { Form, Input, Modal, Select, Table, message } from "antd";
 import React, { useState } from "react";
 import {
   useAllUserQuery,
   useCreateAdminMutation,
 } from "../../../redux/apiSlices/userApis";
-
-import { PlusOutlined } from "@ant-design/icons";
 
 const ManageUsers = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -97,17 +95,6 @@ const ManageUsers = () => {
 
   return (
     <div className="p-6 min-h-screen">
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-xl font-semibold">Make Admin</h1>
-        <Button
-          type="primary"
-          icon={<PlusOutlined />}
-          onClick={showModal}
-          className="flex items-center bg-[#FF0048] text-white font-semibold"
-        >
-          Create Admin Profile
-        </Button>
-      </div>
       <div className="mb-4 flex justify-end">
         <Select
           defaultValue="Filter"

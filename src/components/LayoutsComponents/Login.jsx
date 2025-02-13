@@ -1,8 +1,7 @@
 import { Button, Form, Input, message } from "antd";
-import { Link, useNavigate } from "react-router-dom";
 import React, { useCallback } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
-import logo from "../../../public/logo.png";
 import { useLoginMutation } from "../../../redux/apiSlices/userApis";
 
 const Login = () => {
@@ -72,7 +71,7 @@ const Login = () => {
   return (
     <div className="text-secondary min-h-screen flex items-center justify-center">
       <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-[64px]">
-        <img src={logo} alt="logo" className="mx-auto mb-4" />
+        <img src={"/logo.png"} alt="logo" className="mx-auto mb-4" />
         <h1 className="text-center font-bold text-3xl mb-6">Welcome!</h1>
 
         <div className="flex justify-center items-center">

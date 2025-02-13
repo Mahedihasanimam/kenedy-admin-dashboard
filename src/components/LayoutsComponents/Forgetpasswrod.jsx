@@ -2,9 +2,8 @@ import { Button, Form, Input, message } from "antd";
 
 import { MailOutlined } from "@ant-design/icons";
 import React from "react";
-import logo from "../../../public/logo.png";
-import { useForgotPasswordMutation } from "../../../redux/apiSlices/userApis";
 import { useNavigate } from "react-router-dom";
+import { useForgotPasswordMutation } from "../../../redux/apiSlices/userApis";
 
 const Forgetpasswrod = () => {
   // State to hold email and password
@@ -37,7 +36,7 @@ const Forgetpasswrod = () => {
   return (
     <div className="text-secondary min-h-screen flex items-center justify-center">
       <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-[64px]">
-        <img src={logo} alt="logo" className="mx-auto mb-4" />
+        <img src={"/logo.png"} alt="logo" className="mx-auto mb-4" />
         <h1 className="text- font-bold text-2xl mb-2">Forget Password?</h1>
         <p className="text-secondary mb-6">
           Don’t worry we are here to help you

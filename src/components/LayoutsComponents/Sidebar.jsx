@@ -1,12 +1,11 @@
-import { BiPodcast, BiUser, BiUserPlus } from "react-icons/bi";
-import { Dropdown, Image, Layout, Menu } from "antd";
-import { Link, NavLink } from "react-router-dom";
 import { SecurityScanOutlined, UserOutlined } from "@ant-design/icons";
+import { Dropdown, Image, Layout, Menu } from "antd";
+import { BiPodcast, BiUser, BiUserPlus } from "react-icons/bi";
+import { Link, NavLink } from "react-router-dom";
 
 import { IoAddOutline } from "react-icons/io5";
 import Swal from "sweetalert2";
 import { imageUrl } from "../../../redux/api/baseApi";
-import logo from "../../../public/logo.png";
 import { useGetUserProfileQuery } from "../../../redux/apiSlices/userApis";
 
 const { Sider } = Layout;
@@ -81,7 +80,11 @@ const Sidebar = ({ collapsed }) => {
             collapsed ? "text-lg" : "text-3xl"
           } font-bold my-10 text-white text-center`}
         >
-          <Image src={logo} preview={false} className="w-20 h-20 mx-auto" />
+          <Image
+            src={"/logo.png"}
+            preview={false}
+            className="w-20 h-20 mx-auto"
+          />
         </div>
         <div className="flex-col items-center justify-between">
           <div className="min-h-[calc(100vh-410px)] overflow-y-auto">
@@ -262,12 +265,12 @@ const Sidebar = ({ collapsed }) => {
                       <path
                         d="M2 0.572266L2 8.62227C0.85888 8.85391 0 9.86279 0 11.0723C0 12.2817 0.85888 13.2906 2 13.5223V15.5723H3V13.5223C4.14112 13.2906 5 12.2817 5 11.0723C5 9.86279 4.14112 8.85391 3 8.62227L3 0.572266H2Z"
                         fill="black"
-                        fill-opacity="0.8"
+                        fillOpacity="0.8"
                       />
                       <path
                         d="M10 0.572266L10 2.62227C8.85888 2.85391 8 3.86279 8 5.07227C8 6.28174 8.85888 7.29062 10 7.52226V15.5723H11V7.52226C12.1411 7.29062 13 6.28174 13 5.07227C13 3.86279 12.1411 2.85391 11 2.62227L11 0.572266H10Z"
                         fill="black"
-                        fill-opacity="0.8"
+                        fillOpacity="0.8"
                       />
                     </svg>
                   ),
