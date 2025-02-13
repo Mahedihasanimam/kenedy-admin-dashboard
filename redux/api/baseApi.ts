@@ -3,8 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import Swal from "sweetalert2";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "http://10.0.80.85:1010",
-  // baseUrl: "https://nail-flags-gnome-receiver.trycloudflare.com/",
+  baseUrl: import.meta.env.VITE_BACKEND_URL,
   // timeout: 10000,
   prepareHeaders: async (headers, { getState }) => {
     // const token = localStorage.getItem("token");
@@ -37,6 +36,7 @@ const baseQueryWithRath: typeof baseQuery = async (args, api, extraOptions) => {
         confirmButtonText: "Ok",
       });
     }
+    // localStorage?.removeItem("token");
   }
 
   if (result?.error?.status === 401) {
@@ -71,9 +71,10 @@ export const api = createApi({
     "terms",
     "faq",
     "notification",
+    "forum",
+    "comment",
+    "subscription",
   ],
 });
 
-// export const imageUrl = "https://nail-flags-gnome-receiver.trycloudflare.com/";
-// export const imageUrl = "http://10.0.80.85:3000/";
-export const imageUrl = "http://10.0.80.85:1010/";
+export const imageUrl = import.meta.env.VITE_BACKEND_URL;
