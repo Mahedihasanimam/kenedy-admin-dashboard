@@ -1,4 +1,8 @@
-import { SecurityScanOutlined, UserOutlined } from "@ant-design/icons";
+import {
+  MoneyCollectOutlined,
+  SecurityScanOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 import { Dropdown, Image, Layout, Menu } from "antd";
 import { BiPodcast, BiUser, BiUserPlus } from "react-icons/bi";
 import { Link, NavLink } from "react-router-dom";
@@ -145,6 +149,7 @@ const Sidebar = ({ collapsed }) => {
                     </Link>
                   ),
                 },
+
                 // {
                 //   key: "3",
                 //   icon: (
@@ -167,7 +172,7 @@ const Sidebar = ({ collapsed }) => {
                 //   ),
                 // },
                 {
-                  key: "4",
+                  key: "3",
                   icon: <BiUser size={25} />,
                   label: (
                     <NavLink
@@ -184,7 +189,7 @@ const Sidebar = ({ collapsed }) => {
                   ),
                 },
                 {
-                  key: "4",
+                  key: "9",
                   icon: <BiUserPlus size={25} />,
                   label: (
                     <NavLink
@@ -197,6 +202,23 @@ const Sidebar = ({ collapsed }) => {
                     >
                       {" "}
                       Affiliates
+                    </NavLink>
+                  ),
+                },
+                {
+                  key: "8",
+                  icon: <MoneyCollectOutlined size={25} />,
+                  label: (
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive
+                          ? "text-[#FF0048] opacity-70"
+                          : " text-secondary opacity-70"
+                      }
+                      to={`/subscription`}
+                    >
+                      {" "}
+                      Subscriptions
                     </NavLink>
                   ),
                 },

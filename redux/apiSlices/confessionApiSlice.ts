@@ -22,6 +22,20 @@ const confessionsApi = api.injectEndpoints({
       }),
       invalidatesTags: ["confession"],
     }),
+    approveConfession: builder.mutation({
+      query: (id) => ({
+        url: `/confessions/approve-confession/${id}`,
+        method: "POST",
+      }),
+      invalidatesTags: ["confession"],
+    }),
+    cancelConfession: builder.mutation({
+      query: (id) => ({
+        url: `/confessions/approve-confession/${id}`,
+        method: "POST",
+      }),
+      invalidatesTags: ["confession"],
+    }),
     updateConfession: builder.mutation({
       query: ({ data, id }) => ({
         url: `/confessions/update-confession-by-id/${id}`,
@@ -46,4 +60,6 @@ export const {
   useGetAllConfessionsQuery,
   useGetConfessionByIdQuery,
   useUpdateConfessionMutation,
+  useApproveConfessionMutation,
+  useCancelConfessionMutation,
 } = confessionsApi;
