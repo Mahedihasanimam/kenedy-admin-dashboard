@@ -1,10 +1,10 @@
+import { Button, Form, Input, Modal, Pagination, Select, Upload } from "antd";
 import {
   DeleteOutlined,
   LoadingOutlined,
   PlusOutlined,
   UploadOutlined,
 } from "@ant-design/icons";
-import { Button, Form, Input, Modal, Pagination, Select, Upload } from "antd";
 import React, { useState } from "react";
 import {
   useAddBookMutation,
@@ -74,6 +74,7 @@ const BooksCollection = () => {
         authorName: book.authorName,
         description: book.description,
         languages: book?.languages,
+        price: book?.price,
       });
 
       book?.bookCoverImage &&
@@ -117,6 +118,7 @@ const BooksCollection = () => {
         formData.append("authorName", values.authorName);
         formData.append("description", values.description);
         formData.append("languages", values.languages);
+        formData.append("price", values.price);
 
         // Add image file
         if (imageFileList.length && imageFileList[0]?.originFileObj) {
@@ -233,6 +235,9 @@ const BooksCollection = () => {
               alt={book.bookName}
               className="w-full h-56 object-cover rounded-md mb-4"
             />
+            <h2 className="text-xl font-semibold text-[#FF0048] max-w-[250px]">
+              {book.price ? "$" + book.price : ""}
+            </h2>
             <h2 className="text-lg font-semibold text-secondary max-w-[250px]">
               {book.bookName}
             </h2>
@@ -297,6 +302,9 @@ const BooksCollection = () => {
         okText={editingBook ? "Update Book" : "Add Book"}
         cancelText="Cancel"
         centered
+        okButtonProps={{
+          style: { backgroundColor: "#ff4d4f", borderColor: "#ff4d4f" }, // Custom OK button color
+        }}
       >
         <Form layout="vertical" form={form}>
           <Form.Item
@@ -314,6 +322,13 @@ const BooksCollection = () => {
             ]}
           >
             <Input placeholder="Enter author name" />
+          </Form.Item>
+          <Form.Item
+            label="Price"
+            name="price"
+            rules={[{ required: true, message: "Please enter the price!" }]}
+          >
+            <Input placeholder="Enter book price" />
           </Form.Item>
           <Form.Item
             label="Description"

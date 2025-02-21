@@ -1,10 +1,11 @@
 import {
+  AudioOutlined,
   MoneyCollectOutlined,
   SecurityScanOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { Dropdown, Image, Layout, Menu } from "antd";
 import { BiPodcast, BiUser, BiUserPlus } from "react-icons/bi";
+import { Dropdown, Image, Layout, Menu } from "antd";
 import { Link, NavLink } from "react-router-dom";
 
 import { IoAddOutline } from "react-icons/io5";
@@ -72,26 +73,26 @@ const Sidebar = ({ collapsed }) => {
   return (
     <div className="fixed top-0 left-0 bottom-0 font-popins">
       <Sider
-        className="  h-[100vh] w-[300px] bg-white text-secondary"
+        className=" bg-white text-secondary"
         width={250}
         collapsedWidth={80}
         trigger={null}
         collapsible
         collapsed={collapsed}
       >
-        <div
-          className={` ${
-            collapsed ? "text-lg" : "text-3xl"
-          } font-bold my-10 text-white text-center`}
-        >
-          <Image
-            src={"/logo.png"}
-            preview={false}
-            className="w-20 h-20 mx-auto"
-          />
-        </div>
-        <div className="flex-col items-center justify-between">
-          <div className="min-h-[calc(100vh-410px)] overflow-y-auto">
+        <div className="h-screen   flex flex-col justify-between">
+          <div className=" overflow-y-auto ">
+            <div
+              className={` ${
+                collapsed ? "text-lg" : "text-3xl"
+              } font-bold my-10 text-white text-center`}
+            >
+              <Image
+                src={"/logo.png"}
+                preview={false}
+                className="w-20 h-20 mx-auto"
+              />
+            </div>
             <Menu
               theme=""
               mode="inline"
@@ -185,6 +186,23 @@ const Sidebar = ({ collapsed }) => {
                     >
                       {" "}
                       Manage Users
+                    </NavLink>
+                  ),
+                },
+                {
+                  key: "9",
+                  icon: <AudioOutlined size={25} />,
+                  label: (
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive
+                          ? "text-[#FF0048] opacity-70"
+                          : " text-secondary opacity-70"
+                      }
+                      to={`/confessions-approval`}
+                    >
+                      {" "}
+                      Confessions
                     </NavLink>
                   ),
                 },
@@ -314,7 +332,7 @@ const Sidebar = ({ collapsed }) => {
             />
           </div>
 
-          <div className="flex flex-row items-center justify-around mt-44    ">
+          <div className="flex flex-row items-center  justify-around w-[250px] py-10 ">
             <div
               className="flex flex-row items-center gap-2 text-white  "
               role="menuitem"
