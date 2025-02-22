@@ -1,6 +1,7 @@
+import { Button, Input, Select, Table } from "antd";
 import React, { useState } from "react";
-import { Table, Button, Select, Input } from "antd";
-import {SearchOutlined } from "@ant-design/icons";
+
+import { SearchOutlined } from "@ant-design/icons";
 const { Option } = Select;
 
 const AlltransactionTable = () => {
@@ -108,31 +109,41 @@ const AlltransactionTable = () => {
   const handleChange = (value) => {
     setSelectedOption(value);
   };
+
   return (
     <div className=" my-12 bg-[#1E1E1E] p-4 rounded-lg">
       <Input
         placeholder="Search Transactions"
         prefix={<SearchOutlined />}
-        style={{ border: "none", backgroundColor: "#2B2B2B", color: "white", height: "40px" }}
+        style={{
+          border: "none",
+          backgroundColor: "#2B2B2B",
+          color: "white",
+          height: "40px",
+        }}
       />
       <div className="flex items-center justify-between mb-4 mt-4">
         <div>
-          <h1 className="text-[34px] text-[#FFFFFF] font-bold">All Transactions</h1>
-          <p className="text-sm text-[#FFFFFFB2]">Overall details of transactions</p>
+          <h1 className="text-[34px] text-[#FFFFFF] font-bold">
+            All Transactions
+          </h1>
+          <p className="text-sm text-[#FFFFFFB2]">
+            Overall details of transactions
+          </p>
         </div>
         <div>
-        <Select
-          className="custom-select" // Use the custom class
-          defaultValue="weekly"
-          style={{
-            width: 120,
-          }}
-          onChange={handleChange}
-        >
-          <Option value="weekly">Weekly</Option>
-          <Option value="monthly">Monthly</Option>
-          <Option value="yearly">Yearly</Option>
-        </Select>
+          <Select
+            className="custom-select" // Use the custom class
+            defaultValue="weekly"
+            style={{
+              width: 120,
+            }}
+            onChange={handleChange}
+          >
+            <Option value="weekly">Weekly</Option>
+            <Option value="monthly">Monthly</Option>
+            <Option value="yearly">Yearly</Option>
+          </Select>
         </div>
       </div>
       <Table
