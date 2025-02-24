@@ -304,3 +304,28 @@ html {
   scroll-snap-type: y mandatory;
 }
 
+
+ .ant-tabs-tab .ant-tabs-tab-active {
+   border-bottom: #FF0048 !important;
+}
+:where(.css-dev-only-do-not-override-qnu6hi).ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #FF0048;
+  text-shadow: 0 0 0.25px currentcolor;
+  font-weight: semibold;
+
+}
+
+.custom-tab-pane {
+  background-color: #FF0048 !important;
+  border: 1px solid #FF0048 !important;
+}
+/* Customize the color of the ink bar */
+.custom-tab-pane .ant-tabs-ink-bar {
+  background-color: #FF0048 !important; /* Change ink bar color */
+}
+
+/* Customize the animation of the ink bar */
+.custom-tab-pane .ant-tabs-ink-bar-animated {
+  transition: all 0.3s ease-out; /* Adjust animation speed and timing */
+  background-color: #FF0048 !important; /* Change ink bar animation color */
+}
