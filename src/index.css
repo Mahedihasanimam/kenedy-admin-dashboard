@@ -329,3 +329,9 @@ html {
   transition: all 0.3s ease-out; /* Adjust animation speed and timing */
   background-color: #FF0048 !important; /* Change ink bar animation color */
 }
+
+.ant-tabs-ink-bar {
+  background-color: #FF0048 !important; 
+  height: 3px !important; 
+  border-radius: 5px;
+}
