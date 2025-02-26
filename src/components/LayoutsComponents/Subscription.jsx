@@ -130,23 +130,16 @@ const Subscription = () => {
       title: "Time Left (Months)",
       dataIndex: "monthsLeft",
       key: "monthsLeft",
+      render: (monthsLeft) => (
+        <span className=" text-center">{monthsLeft} Months</span>
+      ),
     },
     {
       title: "Time Left (Days)",
       dataIndex: "daysLeft",
       key: "daysLeft",
-    },
-    {
-      title: "Time Left (Hours)",
-      dataIndex: "hoursLeft",
-      key: "hoursLeft",
-    },
-    {
-      title: "Years Left",
-      dataIndex: "yearsLeft",
-      key: "yearsLeft",
-      render: (yearsLeft) => (
-        <span>{yearsLeft ? Math.floor(yearsLeft) : "No Subscription"}</span>
+      render: (daysLeft) => (
+        <span className=" text-center">{daysLeft} Days</span>
       ),
     },
   ];
