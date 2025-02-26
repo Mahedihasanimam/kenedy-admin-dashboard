@@ -210,7 +210,7 @@ const Subscription = () => {
                     <p className="text-5xl font-bold mt-4">${item?.price}</p>
                     <span className="text-xs font-bold text-[#262626]">
                       /
-                      {item?.duration === 180
+                      {item?.duration === 30
                         ? "Monthly"
                         : item?.duration === 365
                         ? "Yearly"
@@ -268,9 +268,12 @@ const Subscription = () => {
           <Form.Item
             name="duration"
             label="Duration (months)"
-            rules={[{ required: true, message: "Please enter the duration" }]}
+            rules={[{ required: true, message: "Please select the duration" }]}
           >
-            <Input type="number" placeholder="Enter duration in months" />
+            <Select placeholder="Select duration">
+              <Select.Option value={30}>30 days (Monthly)</Select.Option>
+              <Select.Option value={365}>365 days (Yearly)</Select.Option>
+            </Select>
           </Form.Item>
 
           <Form.List name="features">

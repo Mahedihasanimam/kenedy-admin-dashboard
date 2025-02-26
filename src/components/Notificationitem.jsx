@@ -1,10 +1,10 @@
 "use client";
 
 import { Image } from "antd";
-import { Link } from "react-router-dom";
-import { MdOutlineChevronLeft } from "react-icons/md";
-import { useGetAllNotificationsQuery } from "../../redux/apiSlices/notificaitonApiSlice";
 import { useState } from "react";
+import { MdOutlineChevronLeft } from "react-icons/md";
+import { Link } from "react-router-dom";
+import { useGetAllNotificationsQuery } from "../../redux/apiSlices/notificaitonApiSlice";
 
 const Notificationitem = () => {
   const { data: notifications } = useGetAllNotificationsQuery();
