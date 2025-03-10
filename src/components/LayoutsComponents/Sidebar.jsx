@@ -4,8 +4,8 @@ import {
   SecurityScanOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { BiPodcast, BiUser, BiUserPlus } from "react-icons/bi";
 import { Dropdown, Image, Layout, Menu } from "antd";
+import { BiUser, BiUserPlus } from "react-icons/bi";
 import { Link, NavLink } from "react-router-dom";
 
 import { IoAddOutline } from "react-icons/io5";
@@ -208,6 +208,23 @@ const Sidebar = ({ collapsed }) => {
                 },
                 {
                   key: "9",
+                  icon: <AudioOutlined size={25} />,
+                  label: (
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive
+                          ? "text-[#FF0048] opacity-70"
+                          : " text-secondary opacity-70"
+                      }
+                      to={`/ride-stories-approval`}
+                    >
+                      {" "}
+                      Ride Share Stories
+                    </NavLink>
+                  ),
+                },
+                {
+                  key: "9",
                   icon: <BiUserPlus size={25} />,
                   label: (
                     <NavLink
@@ -275,23 +292,23 @@ const Sidebar = ({ collapsed }) => {
                     </NavLink>
                   ),
                 },
-                {
-                  key: "6",
-                  icon: <BiPodcast size={20} />,
-                  label: (
-                    <NavLink
-                      className={({ isActive }) =>
-                        isActive
-                          ? "text-[#FF0048] opacity-70"
-                          : " text-secondary opacity-70"
-                      }
-                      to={`/addpodcast`}
-                    >
-                      {" "}
-                      Add Podcast
-                    </NavLink>
-                  ),
-                },
+                // {
+                //   key: "6",
+                //   icon: <BiPodcast size={20} />,
+                //   label: (
+                //     <NavLink
+                //       className={({ isActive }) =>
+                //         isActive
+                //           ? "text-[#FF0048] opacity-70"
+                //           : " text-secondary opacity-70"
+                //       }
+                //       to={`/addpodcast`}
+                //     >
+                //       {" "}
+                //       Add Podcast
+                //     </NavLink>
+                //   ),
+                // },
                 {
                   key: "7",
                   icon: (

@@ -75,6 +75,7 @@ export const api = createApi({
     "comment",
     "subscription",
     "about",
+    "stories",
   ],
 });
 
