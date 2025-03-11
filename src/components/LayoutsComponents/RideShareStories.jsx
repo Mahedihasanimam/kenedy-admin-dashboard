@@ -170,8 +170,8 @@ const StoriesApproval = () => {
     averageRating: confession.averageRating,
     comments: confession.comments,
     status: confession.status,
-    confessionAudioUrl: confession.confessionAudioUrl,
-    confessionVideoUrl: confession.confessionVideoUrl,
+    storyAudioUrl: confession.storyAudioUrl,
+    storyVideoUrl: confession.storyVideoUrl,
     createdAt: confession.createdAt,
     updatedAt: confession.updatedAt,
   }));
@@ -251,23 +251,19 @@ const StoriesApproval = () => {
 
           {/* Confession Audio and Video */}
           <div className="mt-4">
-            {selectedConfession?.confessionAudioUrl && (
+            {selectedConfession?.storyAudioUrl && (
               <div className="mb-4">
                 <h3 className="font-semibold text-lg text-[#FF0048]">Audio</h3>
                 <audio controls className="w-full">
-                  <source
-                    src={imageUrl + selectedConfession?.confessionAudioUrl}
-                  />
+                  <source src={imageUrl + selectedConfession?.storyAudioUrl} />
                 </audio>
               </div>
             )}
-            {selectedConfession?.confessionVideoUrl && (
+            {selectedConfession?.storyVideoUrl && (
               <div className="mb-4">
                 <h3 className="font-semibold text-lg text-[#FF0048]">Video</h3>
                 <video controls className="w-full rounded-md">
-                  <source
-                    src={imageUrl + selectedConfession?.confessionVideoUrl}
-                  />
+                  <source src={imageUrl + selectedConfession?.storyVideoUrl} />
                 </video>
               </div>
             )}
