@@ -1,10 +1,10 @@
-import { Button, Form, Input, Modal, Pagination, Select, Upload } from "antd";
 import {
   DeleteOutlined,
   LoadingOutlined,
   PlusOutlined,
   UploadOutlined,
 } from "@ant-design/icons";
+import { Button, Form, Input, Modal, Pagination, Select, Upload } from "antd";
 import React, { useState } from "react";
 import {
   useAddBookMutation,
@@ -65,9 +65,9 @@ const BooksCollection = () => {
   const [editingBook, setEditingBook] = useState(null);
   const [imageFileList, setImageFileList] = useState([]);
   const [pdfFileList, setPdfFileList] = useState([]);
+  const [previewPdfFileList, setPreviewPdfFileList] = useState([]);
 
   const showModal = (book = null) => {
-    // console.log(book);
     if (book) {
       form.setFieldsValue({
         bookName: book.bookName,
@@ -96,12 +96,22 @@ const BooksCollection = () => {
           }))
         );
 
+      book?.previewPdfUrls &&
+        setPreviewPdfFileList(
+          book.previewPdfUrls.map((pdfUrl, index) => ({
+            uid: `${index + 1000}`,
+            name: pdfUrl.split("/").pop()?.split("-")?.pop(),
+            url: pdfUrl,
+            type: "application/pdf",
+          }))
+        );
+
       setEditingBook(book);
     } else {
-      // Reset form
       form.resetFields();
       setImageFileList([]);
       setPdfFileList([]);
+      setPreviewPdfFileList([]);
       setEditingBook(null);
     }
     setIsModalOpen(true);
@@ -112,7 +122,6 @@ const BooksCollection = () => {
     form
       .validateFields()
       .then(async (values) => {
-        console.log(values);
         const formData = new FormData();
         formData.append("bookName", values.bookName);
         formData.append("authorName", values.authorName);
@@ -128,21 +137,14 @@ const BooksCollection = () => {
         // Add PDF files
         for (const file of pdfFileList) {
           if (file.originFileObj) {
-            // Directly append if it's a file object
             formData.append("pdfFiles", file.originFileObj);
           } else {
-            // Fetch the file from the URL
             const response = await fetch(imageUrl + file?.url);
             if (!response.ok) {
               throw new Error(`Failed to fetch file: ${file.url}`);
             }
-            const blob = await response.blob(); // Convert to blob
-            // console.log(blob);
-            const fileName = file?.url.split("/").pop()?.split("-")?.pop(); // Extract file name
-
-            console.log(fileName);
-
-            // Create a new file and append it
+            const blob = await response.blob();
+            const fileName = file?.url.split("/").pop()?.split("-")?.pop();
             formData.append(
               "pdfFiles",
               new File([blob], fileName, { type: "application/pdf" })
@@ -150,32 +152,45 @@ const BooksCollection = () => {
           }
         }
 
+        // Add Preview PDF files
+        for (const file of previewPdfFileList) {
+          if (file.originFileObj) {
+            formData.append("previewPdfFiles", file.originFileObj);
+          } else {
+            const response = await fetch(imageUrl + file?.url);
+            if (!response.ok) {
+              throw new Error(`Failed to fetch file: ${file.url}`);
+            }
+            const blob = await response.blob();
+            const fileName = file?.url.split("/").pop()?.split("-")?.pop();
+            formData.append(
+              "previewPdfFiles",
+              new File([blob], fileName, { type: "application/pdf" })
+            );
+          }
+        }
+
         if (editingBook) {
           formData.append("id", editingBook._id);
-          updateBook({ data: formData, id: editingBook._id }).then(() => {
-            setAddLoader(false);
-            Swal.fire({
-              icon: "success",
-              title: "Book Updated Successfully!",
-              showConfirmButton: false,
-              timer: 1500,
-            });
-          });
+          await updateBook({ data: formData, id: editingBook._id });
         } else {
-          addBook(formData).then(() => {
-            setAddLoader(false);
-            Swal.fire({
-              icon: "success",
-              title: "Book Added Successfully!",
-              showConfirmButton: false,
-              timer: 1500,
-            });
-          });
+          await addBook(formData);
         }
+
+        setAddLoader(false);
+        Swal.fire({
+          icon: "success",
+          title: editingBook
+            ? "Book Updated Successfully!"
+            : "Book Added Successfully!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
 
         form.resetFields();
         setImageFileList([]);
         setPdfFileList([]);
+        setPreviewPdfFileList([]);
         setEditingBook(null);
         setIsModalOpen(false);
       })
@@ -189,11 +204,10 @@ const BooksCollection = () => {
     form.resetFields();
     setImageFileList([]);
     setPdfFileList([]);
+    setPreviewPdfFileList([]);
     setEditingBook(null);
     setIsModalOpen(false);
   };
-
-  // console.log(pdfFileList);
 
   return (
     <div className="p-6">
@@ -228,7 +242,7 @@ const BooksCollection = () => {
         {data?.data?.result?.map((book) => (
           <div
             key={book.id}
-            className="border rounded-lg p-4 shadow-md hover:shadow-lg bg-[#C7C7C740]"
+            className="border  rounded-lg p-4 shadow-md hover:shadow-lg bg-[#C7C7C740]"
           >
             <img
               src={imageUrl + book.bookCoverImage}
@@ -251,10 +265,7 @@ const BooksCollection = () => {
                         key={language}
                         className="flex items-center gap-2 pb-2"
                       >
-                        <img
-                          src={"/public/english.svg"} // Replace with actual image
-                          className="w-4 h-4"
-                        />
+                        <img src={"/public/english.svg"} className="w-4 h-4" />
                         <span className="text-xs text-gray-500 ">English</span>
                       </div>
                     );
@@ -265,10 +276,7 @@ const BooksCollection = () => {
                         key={language}
                         className="flex items-center gap-2 pb-2"
                       >
-                        <img
-                          src={"/public/chinaa.svg"} // Replace with actual image
-                          className="w-4 h-4"
-                        />
+                        <img src={"/public/chinaa.svg"} className="w-4 h-4" />
                         <span className="text-xs text-gray-500 ">
                           SIMPLIFIED CHINESE
                         </span>
@@ -281,10 +289,7 @@ const BooksCollection = () => {
                         key={language}
                         className="flex items-center gap-2 pb-2"
                       >
-                        <img
-                          src={"/public/chinaa.svg"} // Replace with actual image
-                          className="w-4 h-4"
-                        />
+                        <img src={"/public/chinaa.svg"} className="w-4 h-4" />
                         <span className="text-xs text-gray-500 ">
                           TRADITIONAL CHINESE
                         </span>
@@ -297,10 +302,7 @@ const BooksCollection = () => {
                         key={language}
                         className="flex items-center gap-2 pb-2"
                       >
-                        <img
-                          src={"/public/spania.svg"} // Replace with actual image
-                          className="w-4 h-4"
-                        />
+                        <img src={"/public/spania.svg"} className="w-4 h-4" />
                         <span className="text-xs text-gray-500 ">Spanish</span>
                       </div>
                     );
@@ -311,10 +313,7 @@ const BooksCollection = () => {
                         key={language}
                         className="flex items-center gap-2 pb-2"
                       >
-                        <img
-                          src={"/public/france.svg"} // Replace with actual image
-                          className="w-4 h-4"
-                        />
+                        <img src={"/public/france.svg"} className="w-4 h-4" />
                         <span className="text-xs text-gray-500 ">France</span>
                       </div>
                     );
@@ -322,6 +321,30 @@ const BooksCollection = () => {
                 })) ||
                 "Not specified"}
             </p>
+            {book.pdfUrls && book.pdfUrls.length > 0 && (
+              <div className="mt-2">
+                <a
+                  href={imageUrl + book.pdfUrls[0]}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-500 text-sm"
+                >
+                  View Full PDF
+                </a>
+              </div>
+            )}
+            {book.previewPdfUrls && book.previewPdfUrls.length > 0 && (
+              <div className="mt-2">
+                <a
+                  href={imageUrl + book.previewPdfUrls[0]}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-500 text-sm"
+                >
+                  View sample PDF
+                </a>
+              </div>
+            )}
             <div className="mt-2 flex gap-2">
               <Button
                 type="primary"
@@ -338,6 +361,7 @@ const BooksCollection = () => {
               >
                 <DeleteOutlined />
               </Button>
+
               <Button
                 type="primary"
                 style={{
@@ -373,7 +397,7 @@ const BooksCollection = () => {
         cancelText="Cancel"
         centered
         okButtonProps={{
-          style: { backgroundColor: "#ff4d4f", borderColor: "#ff4d4f" }, // Custom OK button color
+          style: { backgroundColor: "#ff4d4f", borderColor: "#ff4d4f" },
         }}
       >
         <Form layout="vertical" form={form}>
@@ -418,7 +442,7 @@ const BooksCollection = () => {
               <Button icon={<UploadOutlined />}>Upload Book Cover</Button>
             </Upload>
           </Form.Item>
-          <Form.Item label="PDF File" name="pdfFiles">
+          <Form.Item label="Full PDF File" name="pdfFiles">
             <Upload
               listType="text"
               maxCount={1}
@@ -426,7 +450,18 @@ const BooksCollection = () => {
               beforeUpload={() => false}
               onChange={({ fileList }) => setPdfFileList(fileList)}
             >
-              <Button icon={<UploadOutlined />}>Upload PDF Files</Button>
+              <Button icon={<UploadOutlined />}>Upload Full PDF</Button>
+            </Upload>
+          </Form.Item>
+          <Form.Item label="Preview PDF File" name="previewPdfFiles">
+            <Upload
+              listType="text"
+              maxCount={1}
+              fileList={previewPdfFileList}
+              beforeUpload={() => false}
+              onChange={({ fileList }) => setPreviewPdfFileList(fileList)}
+            >
+              <Button icon={<UploadOutlined />}>Upload Preview PDF</Button>
             </Upload>
           </Form.Item>
           <Form.Item
