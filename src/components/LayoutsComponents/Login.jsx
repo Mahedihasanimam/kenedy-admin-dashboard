@@ -28,7 +28,7 @@ const Login = () => {
         }
       } catch (error) {
         console.log("Error logging in:", error);
-        message.error(error.data.message);
+        message.error(error?.data?.message);
       }
     },
     [loginUser, navigate]

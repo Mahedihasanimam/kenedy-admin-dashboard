@@ -36,7 +36,7 @@ const baseQueryWithRath: typeof baseQuery = async (args, api, extraOptions) => {
         confirmButtonText: "Ok",
       });
     }
-    // localStorage?.removeItem("token");
+    localStorage?.removeItem("token");
   }
 
   if (result?.error?.status === 401) {
