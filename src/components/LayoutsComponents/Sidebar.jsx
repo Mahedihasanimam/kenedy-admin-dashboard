@@ -341,7 +341,7 @@ const Sidebar = ({ collapsed }) => {
                       overlay={seetingsmenu}
                       trigger={["click"]}
                     >
-                      <p>Seetings</p>
+                      <p>Setting</p>
                     </Dropdown>
                   ),
                 },
