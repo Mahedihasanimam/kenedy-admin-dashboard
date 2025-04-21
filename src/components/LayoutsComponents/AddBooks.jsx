@@ -77,34 +77,39 @@ const BooksCollection = () => {
         price: book?.price,
       });
 
-      book?.bookCoverImage &&
+      // Set existing files for editing
+      if (book.bookCoverImage) {
         setImageFileList([
           {
             uid: "-1",
-            name: book.bookCoverImage.split("/").pop()?.split("-")?.pop(),
-            url: imageUrl + book.bookCoverImage,
+            name: "existingImage",
+            status: "done",
+            url: book.bookCoverImage,
           },
         ]);
+      }
 
-      book?.pdfUrls &&
+      if (book.pdfUrls && book.pdfUrls.length > 0) {
         setPdfFileList(
-          book.pdfUrls.map((pdfUrl, index) => ({
-            uid: `${index}`,
-            name: pdfUrl.split("/").pop()?.split("-")?.pop(),
-            url: pdfUrl,
-            type: "application/pdf",
+          book.pdfUrls.map((url, index) => ({
+            uid: `-${index + 1}`,
+            name: `pdf-${index + 1}`,
+            status: "done",
+            url: url,
           }))
         );
+      }
 
-      book?.previewPdfUrls &&
+      if (book.previewPdfUrls && book.previewPdfUrls.length > 0) {
         setPreviewPdfFileList(
-          book.previewPdfUrls.map((pdfUrl, index) => ({
-            uid: `${index + 1000}`,
-            name: pdfUrl.split("/").pop()?.split("-")?.pop(),
-            url: pdfUrl,
-            type: "application/pdf",
+          book.previewPdfUrls.map((url, index) => ({
+            uid: `-${index + 100}`,
+            name: `preview-pdf-${index + 1}`,
+            status: "done",
+            url: url,
           }))
         );
+      }
 
       setEditingBook(book);
     } else {
@@ -122,6 +127,7 @@ const BooksCollection = () => {
     form
       .validateFields()
       .then(async (values) => {
+        setIsModalOpen(false);
         const formData = new FormData();
         formData.append("bookName", values.bookName);
         formData.append("authorName", values.authorName);
@@ -129,49 +135,46 @@ const BooksCollection = () => {
         formData.append("languages", values.languages);
         formData.append("price", values.price);
 
-        // Add image file
-        if (imageFileList.length && imageFileList[0]?.originFileObj) {
-          formData.append("image", imageFileList[0].originFileObj);
-        }
-
-        // Add PDF files
-        for (const file of pdfFileList) {
-          if (file.originFileObj) {
-            formData.append("pdfFiles", file.originFileObj);
-          } else {
-            const response = await fetch(imageUrl + file?.url);
-            if (!response.ok) {
-              throw new Error(`Failed to fetch file: ${file.url}`);
-            }
-            const blob = await response.blob();
-            const fileName = file?.url.split("/").pop()?.split("-")?.pop();
-            formData.append(
-              "pdfFiles",
-              new File([blob], fileName, { type: "application/pdf" })
-            );
+        // Handle image file
+        if (imageFileList.length > 0) {
+          if (imageFileList[0]?.originFileObj) {
+            // New file uploaded
+            formData.append("image", imageFileList[0].originFileObj);
+          } else if (imageFileList[0]?.url) {
+            // Existing file (when editing)
+            formData.append("existingImage", imageFileList[0].url);
           }
         }
 
-        // Add Preview PDF files
-        for (const file of previewPdfFileList) {
-          if (file.originFileObj) {
-            formData.append("previewPdfFiles", file.originFileObj);
-          } else {
-            const response = await fetch(imageUrl + file?.url);
-            if (!response.ok) {
-              throw new Error(`Failed to fetch file: ${file.url}`);
-            }
-            const blob = await response.blob();
-            const fileName = file?.url.split("/").pop()?.split("-")?.pop();
+        // Handle PDF files
+        if (pdfFileList.length > 0) {
+          if (pdfFileList[0]?.originFileObj) {
+            // New file uploaded
+            formData.append("pdfFiles", pdfFileList[0].originFileObj);
+          } else if (pdfFileList[0]?.url) {
+            // Existing file (when editing)
+            formData.append("existingPdfFiles", pdfFileList[0].url);
+          }
+        }
+
+        // Handle Preview PDF files
+        if (previewPdfFileList.length > 0) {
+          if (previewPdfFileList[0]?.originFileObj) {
+            // New file uploaded
             formData.append(
               "previewPdfFiles",
-              new File([blob], fileName, { type: "application/pdf" })
+              previewPdfFileList[0].originFileObj
+            );
+          } else if (previewPdfFileList[0]?.url) {
+            // Existing file (when editing)
+            formData.append(
+              "existingPreviewPdfFiles",
+              previewPdfFileList[0].url
             );
           }
         }
 
         if (editingBook) {
-          formData.append("id", editingBook._id);
           await updateBook({ data: formData, id: editingBook._id });
         } else {
           await addBook(formData);
@@ -192,7 +195,6 @@ const BooksCollection = () => {
         setPdfFileList([]);
         setPreviewPdfFileList([]);
         setEditingBook(null);
-        setIsModalOpen(false);
       })
       .catch((info) => {
         setAddLoader(false);
